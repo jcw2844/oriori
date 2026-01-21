@@ -1,0 +1,695 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix pe:   <http://example.org/pe/standard#> .
+@prefix rec:  <http://example.org/pe/reco#> .
+
+#################################################################
+# Classes
+#################################################################
+rec:AchievementStandard a rdfs:Class ; rdfs:label "체육 성취기준"@ko .
+rec:BookRecommendation a rdfs:Class ; rdfs:label "추천 도서(교보문고 검색 기반)"@ko .
+
+#################################################################
+# Properties
+#################################################################
+rec:code a rdf:Property ; rdfs:label "코드"@ko ; rdfs:domain rec:AchievementStandard ; rdfs:range xsd:string .
+rec:description a rdf:Property ; rdfs:label "설명"@ko ; rdfs:domain rec:AchievementStandard ; rdfs:range xsd:string .
+rec:recommends a rdf:Property ; rdfs:label "추천 연결"@ko ; rdfs:domain rec:AchievementStandard ; rdfs:range rec:BookRecommendation .
+rec:searchKeyword a rdf:Property ; rdfs:label "검색 키워드"@ko ; rdfs:domain rec:BookRecommendation ; rdfs:range xsd:string .
+rec:kyoboSearchUrl a rdf:Property ; rdfs:label "교보문고 검색 링크"@ko ; rdfs:domain rec:BookRecommendation ; rdfs:range xsd:anyURI .
+rec:note a rdf:Property ; rdfs:label "비고"@ko ; rdfs:domain rec:BookRecommendation ; rdfs:range xsd:string .
+
+#################################################################
+# Achievement Standards
+#################################################################
+pe:AS_9체01_01 a rec:AchievementStandard ; rec:code "9체01-01" ; rec:description "체력 증진의 의미를 이해하고 원리를 분석한다."@ko .
+pe:AS_9체01_02 a rec:AchievementStandard ; rec:code "9체01-02" ; rec:description "자신의 체력 수준에 맞는 체력 증진 운동을 실천한다."@ko .
+pe:AS_9체01_03 a rec:AchievementStandard ; rec:code "9체01-03" ; rec:description "체력 관리의 의미를 이해하고 원리를 분석한다."@ko .
+pe:AS_9체01_04 a rec:AchievementStandard ; rec:code "9체01-04" ; rec:description "자신의 체력을 진단하고 적합한 체력 관리 방법을 실천한다."@ko .
+pe:AS_9체01_05 a rec:AchievementStandard ; rec:code "9체01-05" ; rec:description "운동 처방의 의미를 이해하고 원리를 분석한다."@ko .
+pe:AS_9체01_06 a rec:AchievementStandard ; rec:code "9체01-06" ; rec:description "자신의 신체 조건이나 체력에 맞게 운동 처방 계획을 수립하고 안전하게 실천한다."@ko .
+pe:AS_9체01_07 a rec:AchievementStandard ; rec:code "9체01-07" ; rec:description "신체 건강의 의미를 이해하고 신체 건강 활동의 종류와 특성을 분석한다."@ko .
+pe:AS_9체01_08 a rec:AchievementStandard ; rec:code "9체01-08" ; rec:description "자신에게 적합한 신체 건강 활동 방법을 실천한다."@ko .
+pe:AS_9체01_09 a rec:AchievementStandard ; rec:code "9체01-09" ; rec:description "정신 건강의 의미를 이해하고 정신 건강 활동의 종류와 특성을 분석한다."@ko .
+pe:AS_9체01_10 a rec:AchievementStandard ; rec:code "9체01-10" ; rec:description "자신에게 적합한 정신 건강 활동 방법을 실천한다."@ko .
+pe:AS_9체01_11 a rec:AchievementStandard ; rec:code "9체01-11" ; rec:description "사회적 건강의 의미를 이해하고 사회적 건강을 위한 활동의 종류와 특성을 분석한다."@ko .
+pe:AS_9체01_12 a rec:AchievementStandard ; rec:code "9체01-12" ; rec:description "사회적으로 적합한 건강 활동 방법을 실천한다."@ko .
+pe:AS_9체01_13 a rec:AchievementStandard ; rec:code "9체01-13" ; rec:description "체력 운동을 하며 실천 의지와 인내심을 보이고 자기 주도적으로 문제를 해결한다."@ko .
+pe:AS_9체01_14 a rec:AchievementStandard ; rec:code "9체01-14" ; rec:description "건강 활동을 자율적으로 실천하며 자신과 공동체에 대한 안전을 추구한다."@ko .
+pe:AS_9체02_01 a rec:AchievementStandard ; rec:code "9체02-01" ; rec:description "동작형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체02_02 a rec:AchievementStandard ; rec:code "9체02-02" ; rec:description "동작형 스포츠의 수행 원리를 적용하여 경기 기능을 수련하고 향상한다."@ko .
+pe:AS_9체02_03 a rec:AchievementStandard ; rec:code "9체02-03" ; rec:description "동작형 스포츠의 경기 방법을 이해하고 경기 전략을 상황에 맞게 활용하며 안전하게 경기한다."@ko .
+pe:AS_9체02_04 a rec:AchievementStandard ; rec:code "9체02-04" ; rec:description "기록형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체02_05 a rec:AchievementStandard ; rec:code "9체02-05" ; rec:description "기록형 스포츠의 수행 원리를 적용하여 경기 기능을 수련하고 향상한다."@ko .
+pe:AS_9체02_06 a rec:AchievementStandard ; rec:code "9체02-06" ; rec:description "기록형 스포츠의 경기 방법을 이해하고 경기 전략을 활용하며 안전하게 경기한다."@ko .
+pe:AS_9체02_07 a rec:AchievementStandard ; rec:code "9체02-07" ; rec:description "투기형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체02_08 a rec:AchievementStandard ; rec:code "9체02-08" ; rec:description "투기형 스포츠의 수행 원리를 적용하여 경기 기능을 수련하고 향상한다."@ko .
+pe:AS_9체02_09 a rec:AchievementStandard ; rec:code "9체02-09" ; rec:description "투기형 스포츠의 경기 방법을 이해하고 경기 전략을 상황에 맞게 활용하며 안전하게 경기한다."@ko .
+pe:AS_9체02_10 a rec:AchievementStandard ; rec:code "9체02-10" ; rec:description "영역형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체02_11 a rec:AchievementStandard ; rec:code "9체02-11" ; rec:description "영역형 스포츠의 수행 원리를 적용하여 경기 기능을 수행하고 향상한다."@ko .
+pe:AS_9체02_12 a rec:AchievementStandard ; rec:code "9체02-12" ; rec:description "영역형 스포츠의 경기 방법을 이해하고 경기 전략을 활용하며 안전하게 경기한다."@ko .
+pe:AS_9체02_13 a rec:AchievementStandard ; rec:code "9체02-13" ; rec:description "필드형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체02_14 a rec:AchievementStandard ; rec:code "9체02-14" ; rec:description "필드형 스포츠의 수행 원리를 적용하여 경기 기능을 수행하고 향상한다."@ko .
+pe:AS_9체02_15 a rec:AchievementStandard ; rec:code "9체02-15" ; rec:description "필드형 스포츠의 경기 방법을 이해하고 경기 전략을 활용하며 안전하게 경기한다."@ko .
+pe:AS_9체02_16 a rec:AchievementStandard ; rec:code "9체02-16" ; rec:description "네트형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체02_17 a rec:AchievementStandard ; rec:code "9체02-17" ; rec:description "네트형 스포츠의 수행 원리를 적용하여 경기 기능을 수행하고 향상한다."@ko .
+pe:AS_9체02_18 a rec:AchievementStandard ; rec:code "9체02-18" ; rec:description "네트형 스포츠의 경기 방법을 이해하고 경기 전략을 활용하며 안전하게 경기한다."@ko .
+pe:AS_9체02_19 a rec:AchievementStandard ; rec:code "9체02-19" ; rec:description "생활환경형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체02_20 a rec:AchievementStandard ; rec:code "9체02-20" ; rec:description "생활환경형 스포츠의 수행 원리를 적용하여 기능을 수행하고 향상한다."@ko .
+pe:AS_9체02_21 a rec:AchievementStandard ; rec:code "9체02-21" ; rec:description "생활환경형 스포츠의 활동 방법을 이해하고 활동 전략을 활용하며 안전하게 경기한다."@ko .
+pe:AS_9체02_22 a rec:AchievementStandard ; rec:code "9체02-22" ; rec:description "자연환경형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체02_23 a rec:AchievementStandard ; rec:code "9체02-23" ; rec:description "자연환경형 스포츠의 수행 원리를 적용하여 기능을 수행하고 향상한다."@ko .
+pe:AS_9체02_24 a rec:AchievementStandard ; rec:code "9체02-24" ; rec:description "자연환경형 스포츠의 활동 방법을 이해하고 활동 전략을 활용하며 안전하게 경기한다."@ko .
+pe:AS_9체02_25 a rec:AchievementStandard ; rec:code "9체02-25" ; rec:description "스포츠의 연습과 경기 과정에서 인내심을 발휘하여 적극적으로 도전한다."@ko .
+pe:AS_9체02_26 a rec:AchievementStandard ; rec:code "9체02-26" ; rec:description "스포츠의 연습과 경기 과정에서 구성원 간에 서로 신뢰하며 팀 목표를 달성하기 위해 노력하고 경기 예절을 갖추며 정정당당하게 참여한다."@ko .
+pe:AS_9체02_27 a rec:AchievementStandard ; rec:code "9체02-27" ; rec:description "스포츠 환경에 대한 친화적 태도와 지속가능한 스포츠 환경을 만들기 위한 공동체 의식을 발휘한다."@ko .
+pe:AS_9체03_01 a rec:AchievementStandard ; rec:code "9체03-01" ; rec:description "스포츠 표현의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체03_02 a rec:AchievementStandard ; rec:code "9체03-02" ; rec:description "스포츠 표현의 원리를 적용하여 동작을 심미적으로 표현한다."@ko .
+pe:AS_9체03_03 a rec:AchievementStandard ; rec:code "9체03-03" ; rec:description "스포츠 표현의 특성과 원리를 반영한 작품을 창작하고 표현 요소를 고려하여 감상한다."@ko .
+pe:AS_9체03_04 a rec:AchievementStandard ; rec:code "9체03-04" ; rec:description "전통 표현의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체03_05 a rec:AchievementStandard ; rec:code "9체03-05" ; rec:description "전통 표현의 원리를 적용하여 동작을 심미적으로 표현한다."@ko .
+pe:AS_9체03_06 a rec:AchievementStandard ; rec:code "9체03-06" ; rec:description "전통 표현의 특성과 원리를 반영한 작품을 창작하고 표현 요소를 고려하여 감상한다."@ko .
+pe:AS_9체03_07 a rec:AchievementStandard ; rec:code "9체03-07" ; rec:description "현대 표현의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:AS_9체03_08 a rec:AchievementStandard ; rec:code "9체03-08" ; rec:description "현대 표현의 원리를 적용하여 동작을 심미적으로 표현한다."@ko .
+pe:AS_9체03_09 a rec:AchievementStandard ; rec:code "9체03-09" ; rec:description "현대 표현의 특성과 원리를 반영한 작품을 창작하고 표현 요소를 고려하여 감상한다."@ko .
+pe:AS_9체03_10 a rec:AchievementStandard ; rec:code "9체03-10" ; rec:description "움직임을 표현하고 창작하는 과정에서 독창적이고 개방적인 태도를 갖고 표현 활동 작품을 공감하고 비평한다."@ko .
+
+#################################################################
+# Book Recommendations (51개 기준 × 2권 = 102개 규모)
+# - 각 추천은 "실제 도서명 확정"이 아니라, 교보문고에서 해당 키워드로 검색해
+#   학년·난이도에 맞는 도서를 선택할 수 있도록 만든 자동 보완형 자료입니다.
+#################################################################
+
+rec:REC_9체01_01_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 체력 증진"@ko ;
+  rec:searchKeyword "체력 증진"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B2%B4%EB%A0%A5%20%EC%A6%9D%EC%A7%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_01 rec:recommends rec:REC_9체01_01_1 .
+rec:REC_9체01_01_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 청소년 체력 운동"@ko ;
+  rec:searchKeyword "청소년 체력 운동"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B2%AD%EC%86%8C%EB%85%84%20%EC%B2%B4%EB%A0%A5%20%EC%9A%B4%EB%8F%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_01 rec:recommends rec:REC_9체01_01_2 .
+rec:REC_9체01_02_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 체력 증진"@ko ;
+  rec:searchKeyword "체력 증진"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B2%B4%EB%A0%A5%20%EC%A6%9D%EC%A7%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_02 rec:recommends rec:REC_9체01_02_1 .
+rec:REC_9체01_02_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 청소년 체력 운동"@ko ;
+  rec:searchKeyword "청소년 체력 운동"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B2%AD%EC%86%8C%EB%85%84%20%EC%B2%B4%EB%A0%A5%20%EC%9A%B4%EB%8F%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_02 rec:recommends rec:REC_9체01_02_2 .
+rec:REC_9체01_03_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 체력 관리"@ko ;
+  rec:searchKeyword "체력 관리"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B2%B4%EB%A0%A5%20%EA%B4%80%EB%A6%AC> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_03 rec:recommends rec:REC_9체01_03_1 .
+rec:REC_9체01_03_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 건강체력 측정 평가"@ko ;
+  rec:searchKeyword "건강체력 측정 평가"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B1%B4%EA%B0%95%EC%B2%B4%EB%A0%A5%20%EC%B8%A1%EC%A0%95%20%ED%8F%89%EA%B0%80> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_03 rec:recommends rec:REC_9체01_03_2 .
+rec:REC_9체01_04_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 체력 관리"@ko ;
+  rec:searchKeyword "체력 관리"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B2%B4%EB%A0%A5%20%EA%B4%80%EB%A6%AC> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_04 rec:recommends rec:REC_9체01_04_1 .
+rec:REC_9체01_04_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 건강체력 측정 평가"@ko ;
+  rec:searchKeyword "건강체력 측정 평가"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B1%B4%EA%B0%95%EC%B2%B4%EB%A0%A5%20%EC%B8%A1%EC%A0%95%20%ED%8F%89%EA%B0%80> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_04 rec:recommends rec:REC_9체01_04_2 .
+rec:REC_9체01_05_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 운동처방"@ko ;
+  rec:searchKeyword "운동처방"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9A%B4%EB%8F%99%EC%B2%98%EB%B0%A9> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_05 rec:recommends rec:REC_9체01_05_1 .
+rec:REC_9체01_05_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 운동검사 운동처방 지침"@ko ;
+  rec:searchKeyword "운동검사 운동처방 지침"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9A%B4%EB%8F%99%EA%B2%80%EC%82%AC%20%EC%9A%B4%EB%8F%99%EC%B2%98%EB%B0%A9%20%EC%A7%80%EC%B9%A8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_05 rec:recommends rec:REC_9체01_05_2 .
+rec:REC_9체01_06_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 운동처방"@ko ;
+  rec:searchKeyword "운동처방"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9A%B4%EB%8F%99%EC%B2%98%EB%B0%A9> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_06 rec:recommends rec:REC_9체01_06_1 .
+rec:REC_9체01_06_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 운동검사 운동처방 지침"@ko ;
+  rec:searchKeyword "운동검사 운동처방 지침"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9A%B4%EB%8F%99%EA%B2%80%EC%82%AC%20%EC%9A%B4%EB%8F%99%EC%B2%98%EB%B0%A9%20%EC%A7%80%EC%B9%A8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_06 rec:recommends rec:REC_9체01_06_2 .
+rec:REC_9체01_07_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 신체 건강"@ko ;
+  rec:searchKeyword "신체 건강"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8B%A0%EC%B2%B4%20%EA%B1%B4%EA%B0%95> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_07 rec:recommends rec:REC_9체01_07_1 .
+rec:REC_9체01_07_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 근력 유산소 트레이닝"@ko ;
+  rec:searchKeyword "근력 유산소 트레이닝"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B7%BC%EB%A0%A5%20%EC%9C%A0%EC%82%B0%EC%86%8C%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%8B%9D> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_07 rec:recommends rec:REC_9체01_07_2 .
+rec:REC_9체01_08_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 신체 건강"@ko ;
+  rec:searchKeyword "신체 건강"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8B%A0%EC%B2%B4%20%EA%B1%B4%EA%B0%95> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_08 rec:recommends rec:REC_9체01_08_1 .
+rec:REC_9체01_08_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 근력 유산소 트레이닝"@ko ;
+  rec:searchKeyword "근력 유산소 트레이닝"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B7%BC%EB%A0%A5%20%EC%9C%A0%EC%82%B0%EC%86%8C%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%8B%9D> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_08 rec:recommends rec:REC_9체01_08_2 .
+rec:REC_9체01_09_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 심리"@ko ;
+  rec:searchKeyword "스포츠 심리"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EC%8B%AC%EB%A6%AC> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_09 rec:recommends rec:REC_9체01_09_1 .
+rec:REC_9체01_09_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스트레스 관리 운동"@ko ;
+  rec:searchKeyword "스트레스 관리 운동"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%8A%A4%20%EA%B4%80%EB%A6%AC%20%EC%9A%B4%EB%8F%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_09 rec:recommends rec:REC_9체01_09_2 .
+rec:REC_9체01_10_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 심리"@ko ;
+  rec:searchKeyword "스포츠 심리"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EC%8B%AC%EB%A6%AC> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_10 rec:recommends rec:REC_9체01_10_1 .
+rec:REC_9체01_10_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스트레스 관리 운동"@ko ;
+  rec:searchKeyword "스트레스 관리 운동"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%8A%A4%20%EA%B4%80%EB%A6%AC%20%EC%9A%B4%EB%8F%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_10 rec:recommends rec:REC_9체01_10_2 .
+rec:REC_9체01_11_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠와 공동체"@ko ;
+  rec:searchKeyword "스포츠와 공동체"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%EC%99%80%20%EA%B3%B5%EB%8F%99%EC%B2%B4> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_11 rec:recommends rec:REC_9체01_11_1 .
+rec:REC_9체01_11_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 페어플레이 스포츠맨십"@ko ;
+  rec:searchKeyword "페어플레이 스포츠맨십"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%8E%98%EC%96%B4%ED%94%8C%EB%A0%88%EC%9D%B4%20%EC%8A%A4%ED%8F%AC%EC%B8%A0%EB%A7%A8%EC%8B%AD> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_11 rec:recommends rec:REC_9체01_11_2 .
+rec:REC_9체01_12_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠와 공동체"@ko ;
+  rec:searchKeyword "스포츠와 공동체"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%EC%99%80%20%EA%B3%B5%EB%8F%99%EC%B2%B4> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_12 rec:recommends rec:REC_9체01_12_1 .
+rec:REC_9체01_12_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 페어플레이 스포츠맨십"@ko ;
+  rec:searchKeyword "페어플레이 스포츠맨십"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%8E%98%EC%96%B4%ED%94%8C%EB%A0%88%EC%9D%B4%20%EC%8A%A4%ED%8F%AC%EC%B8%A0%EB%A7%A8%EC%8B%AD> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_12 rec:recommends rec:REC_9체01_12_2 .
+rec:REC_9체01_13_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 운동 동기"@ko ;
+  rec:searchKeyword "운동 동기"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9A%B4%EB%8F%99%20%EB%8F%99%EA%B8%B0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_13 rec:recommends rec:REC_9체01_13_1 .
+rec:REC_9체01_13_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 안전 수칙"@ko ;
+  rec:searchKeyword "스포츠 안전 수칙"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EC%95%88%EC%A0%84%20%EC%88%98%EC%B9%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_13 rec:recommends rec:REC_9체01_13_2 .
+rec:REC_9체01_14_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 운동 동기"@ko ;
+  rec:searchKeyword "운동 동기"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9A%B4%EB%8F%99%20%EB%8F%99%EA%B8%B0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_14 rec:recommends rec:REC_9체01_14_1 .
+rec:REC_9체01_14_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 안전 수칙"@ko ;
+  rec:searchKeyword "스포츠 안전 수칙"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EC%95%88%EC%A0%84%20%EC%88%98%EC%B9%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체01_14 rec:recommends rec:REC_9체01_14_2 .
+rec:REC_9체02_01_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 기술 학습"@ko ;
+  rec:searchKeyword "스포츠 기술 학습"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EA%B8%B0%EC%88%A0%20%ED%95%99%EC%8A%B5> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_01 rec:recommends rec:REC_9체02_01_1 .
+rec:REC_9체02_01_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 경기 전략 지도"@ko ;
+  rec:searchKeyword "경기 전략 지도"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B2%BD%EA%B8%B0%20%EC%A0%84%EB%9E%B5%20%EC%A7%80%EB%8F%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_01 rec:recommends rec:REC_9체02_01_2 .
+rec:REC_9체02_02_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 기술 학습"@ko ;
+  rec:searchKeyword "스포츠 기술 학습"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EA%B8%B0%EC%88%A0%20%ED%95%99%EC%8A%B5> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_02 rec:recommends rec:REC_9체02_02_1 .
+rec:REC_9체02_02_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 경기 전략 지도"@ko ;
+  rec:searchKeyword "경기 전략 지도"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B2%BD%EA%B8%B0%20%EC%A0%84%EB%9E%B5%20%EC%A7%80%EB%8F%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_02 rec:recommends rec:REC_9체02_02_2 .
+rec:REC_9체02_03_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 기술 학습"@ko ;
+  rec:searchKeyword "스포츠 기술 학습"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EA%B8%B0%EC%88%A0%20%ED%95%99%EC%8A%B5> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_03 rec:recommends rec:REC_9체02_03_1 .
+rec:REC_9체02_03_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 경기 전략 지도"@ko ;
+  rec:searchKeyword "경기 전략 지도"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B2%BD%EA%B8%B0%20%EC%A0%84%EB%9E%B5%20%EC%A7%80%EB%8F%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_03 rec:recommends rec:REC_9체02_03_2 .
+rec:REC_9체02_04_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 육상 트레이닝"@ko ;
+  rec:searchKeyword "육상 트레이닝"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9C%A1%EC%83%81%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%8B%9D> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_04 rec:recommends rec:REC_9체02_04_1 .
+rec:REC_9체02_04_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 기록 향상 훈련법"@ko ;
+  rec:searchKeyword "기록 향상 훈련법"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B8%B0%EB%A1%9D%20%ED%96%A5%EC%83%81%20%ED%9B%88%EB%A0%A8%EB%B2%95> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_04 rec:recommends rec:REC_9체02_04_2 .
+rec:REC_9체02_05_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 육상 트레이닝"@ko ;
+  rec:searchKeyword "육상 트레이닝"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9C%A1%EC%83%81%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%8B%9D> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_05 rec:recommends rec:REC_9체02_05_1 .
+rec:REC_9체02_05_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 기록 향상 훈련법"@ko ;
+  rec:searchKeyword "기록 향상 훈련법"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B8%B0%EB%A1%9D%20%ED%96%A5%EC%83%81%20%ED%9B%88%EB%A0%A8%EB%B2%95> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_05 rec:recommends rec:REC_9체02_05_2 .
+rec:REC_9체02_06_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 육상 트레이닝"@ko ;
+  rec:searchKeyword "육상 트레이닝"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9C%A1%EC%83%81%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%8B%9D> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_06 rec:recommends rec:REC_9체02_06_1 .
+rec:REC_9체02_06_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 기록 향상 훈련법"@ko ;
+  rec:searchKeyword "기록 향상 훈련법"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B8%B0%EB%A1%9D%20%ED%96%A5%EC%83%81%20%ED%9B%88%EB%A0%A8%EB%B2%95> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_06 rec:recommends rec:REC_9체02_06_2 .
+rec:REC_9체02_07_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 태권도 교본"@ko ;
+  rec:searchKeyword "태권도 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%83%9C%EA%B6%8C%EB%8F%84%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_07 rec:recommends rec:REC_9체02_07_1 .
+rec:REC_9체02_07_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 유도 기본기 안전"@ko ;
+  rec:searchKeyword "유도 기본기 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9C%A0%EB%8F%84%20%EA%B8%B0%EB%B3%B8%EA%B8%B0%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_07 rec:recommends rec:REC_9체02_07_2 .
+rec:REC_9체02_08_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 태권도 교본"@ko ;
+  rec:searchKeyword "태권도 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%83%9C%EA%B6%8C%EB%8F%84%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_08 rec:recommends rec:REC_9체02_08_1 .
+rec:REC_9체02_08_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 유도 기본기 안전"@ko ;
+  rec:searchKeyword "유도 기본기 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9C%A0%EB%8F%84%20%EA%B8%B0%EB%B3%B8%EA%B8%B0%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_08 rec:recommends rec:REC_9체02_08_2 .
+rec:REC_9체02_09_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 태권도 교본"@ko ;
+  rec:searchKeyword "태권도 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%83%9C%EA%B6%8C%EB%8F%84%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_09 rec:recommends rec:REC_9체02_09_1 .
+rec:REC_9체02_09_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 유도 기본기 안전"@ko ;
+  rec:searchKeyword "유도 기본기 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%9C%A0%EB%8F%84%20%EA%B8%B0%EB%B3%B8%EA%B8%B0%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_09 rec:recommends rec:REC_9체02_09_2 .
+rec:REC_9체02_10_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 농구 전술"@ko ;
+  rec:searchKeyword "농구 전술"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%86%8D%EA%B5%AC%20%EC%A0%84%EC%88%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_10 rec:recommends rec:REC_9체02_10_1 .
+rec:REC_9체02_10_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 축구 전술"@ko ;
+  rec:searchKeyword "축구 전술"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B6%95%EA%B5%AC%20%EC%A0%84%EC%88%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_10 rec:recommends rec:REC_9체02_10_2 .
+rec:REC_9체02_11_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 농구 전술"@ko ;
+  rec:searchKeyword "농구 전술"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%86%8D%EA%B5%AC%20%EC%A0%84%EC%88%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_11 rec:recommends rec:REC_9체02_11_1 .
+rec:REC_9체02_11_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 축구 전술"@ko ;
+  rec:searchKeyword "축구 전술"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B6%95%EA%B5%AC%20%EC%A0%84%EC%88%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_11 rec:recommends rec:REC_9체02_11_2 .
+rec:REC_9체02_12_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 농구 전술"@ko ;
+  rec:searchKeyword "농구 전술"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%86%8D%EA%B5%AC%20%EC%A0%84%EC%88%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_12 rec:recommends rec:REC_9체02_12_1 .
+rec:REC_9체02_12_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 축구 전술"@ko ;
+  rec:searchKeyword "축구 전술"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B6%95%EA%B5%AC%20%EC%A0%84%EC%88%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_12 rec:recommends rec:REC_9체02_12_2 .
+rec:REC_9체02_13_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 야구 기본기"@ko ;
+  rec:searchKeyword "야구 기본기"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%95%BC%EA%B5%AC%20%EA%B8%B0%EB%B3%B8%EA%B8%B0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_13 rec:recommends rec:REC_9체02_13_1 .
+rec:REC_9체02_13_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 티볼 수업 지도"@ko ;
+  rec:searchKeyword "티볼 수업 지도"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%8B%B0%EB%B3%BC%20%EC%88%98%EC%97%85%20%EC%A7%80%EB%8F%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_13 rec:recommends rec:REC_9체02_13_2 .
+rec:REC_9체02_14_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 야구 기본기"@ko ;
+  rec:searchKeyword "야구 기본기"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%95%BC%EA%B5%AC%20%EA%B8%B0%EB%B3%B8%EA%B8%B0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_14 rec:recommends rec:REC_9체02_14_1 .
+rec:REC_9체02_14_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 티볼 수업 지도"@ko ;
+  rec:searchKeyword "티볼 수업 지도"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%8B%B0%EB%B3%BC%20%EC%88%98%EC%97%85%20%EC%A7%80%EB%8F%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_14 rec:recommends rec:REC_9체02_14_2 .
+rec:REC_9체02_15_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 야구 기본기"@ko ;
+  rec:searchKeyword "야구 기본기"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%95%BC%EA%B5%AC%20%EA%B8%B0%EB%B3%B8%EA%B8%B0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_15 rec:recommends rec:REC_9체02_15_1 .
+rec:REC_9체02_15_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 티볼 수업 지도"@ko ;
+  rec:searchKeyword "티볼 수업 지도"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%8B%B0%EB%B3%BC%20%EC%88%98%EC%97%85%20%EC%A7%80%EB%8F%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_15 rec:recommends rec:REC_9체02_15_2 .
+rec:REC_9체02_16_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 배드민턴 교본"@ko ;
+  rec:searchKeyword "배드민턴 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%B0%B0%EB%93%9C%EB%AF%BC%ED%84%B4%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_16 rec:recommends rec:REC_9체02_16_1 .
+rec:REC_9체02_16_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 배구 교본"@ko ;
+  rec:searchKeyword "배구 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%B0%B0%EA%B5%AC%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_16 rec:recommends rec:REC_9체02_16_2 .
+rec:REC_9체02_17_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 배드민턴 교본"@ko ;
+  rec:searchKeyword "배드민턴 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%B0%B0%EB%93%9C%EB%AF%BC%ED%84%B4%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_17 rec:recommends rec:REC_9체02_17_1 .
+rec:REC_9체02_17_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 배구 교본"@ko ;
+  rec:searchKeyword "배구 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%B0%B0%EA%B5%AC%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_17 rec:recommends rec:REC_9체02_17_2 .
+rec:REC_9체02_18_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 배드민턴 교본"@ko ;
+  rec:searchKeyword "배드민턴 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%B0%B0%EB%93%9C%EB%AF%BC%ED%84%B4%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_18 rec:recommends rec:REC_9체02_18_1 .
+rec:REC_9체02_18_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 배구 교본"@ko ;
+  rec:searchKeyword "배구 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%B0%B0%EA%B5%AC%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_18 rec:recommends rec:REC_9체02_18_2 .
+rec:REC_9체02_19_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 생활스포츠"@ko ;
+  rec:searchKeyword "생활스포츠"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%83%9D%ED%99%9C%EC%8A%A4%ED%8F%AC%EC%B8%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_19 rec:recommends rec:REC_9체02_19_1 .
+rec:REC_9체02_19_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 줄넘기 걷기 운동"@ko ;
+  rec:searchKeyword "줄넘기 걷기 운동"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%A4%84%EB%84%98%EA%B8%B0%20%EA%B1%B7%EA%B8%B0%20%EC%9A%B4%EB%8F%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_19 rec:recommends rec:REC_9체02_19_2 .
+rec:REC_9체02_20_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 생활스포츠"@ko ;
+  rec:searchKeyword "생활스포츠"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%83%9D%ED%99%9C%EC%8A%A4%ED%8F%AC%EC%B8%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_20 rec:recommends rec:REC_9체02_20_1 .
+rec:REC_9체02_20_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 줄넘기 걷기 운동"@ko ;
+  rec:searchKeyword "줄넘기 걷기 운동"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%A4%84%EB%84%98%EA%B8%B0%20%EA%B1%B7%EA%B8%B0%20%EC%9A%B4%EB%8F%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_20 rec:recommends rec:REC_9체02_20_2 .
+rec:REC_9체02_21_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 생활스포츠"@ko ;
+  rec:searchKeyword "생활스포츠"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%83%9D%ED%99%9C%EC%8A%A4%ED%8F%AC%EC%B8%A0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_21 rec:recommends rec:REC_9체02_21_1 .
+rec:REC_9체02_21_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 줄넘기 걷기 운동"@ko ;
+  rec:searchKeyword "줄넘기 걷기 운동"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%A4%84%EB%84%98%EA%B8%B0%20%EA%B1%B7%EA%B8%B0%20%EC%9A%B4%EB%8F%99> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_21 rec:recommends rec:REC_9체02_21_2 .
+rec:REC_9체02_22_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 캠핑 안전"@ko ;
+  rec:searchKeyword "캠핑 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%BA%A0%ED%95%91%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_22 rec:recommends rec:REC_9체02_22_1 .
+rec:REC_9체02_22_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 오리엔티어링 등산 안전"@ko ;
+  rec:searchKeyword "오리엔티어링 등산 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%98%A4%EB%A6%AC%EC%97%94%ED%8B%B0%EC%96%B4%EB%A7%81%20%EB%93%B1%EC%82%B0%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_22 rec:recommends rec:REC_9체02_22_2 .
+rec:REC_9체02_23_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 캠핑 안전"@ko ;
+  rec:searchKeyword "캠핑 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%BA%A0%ED%95%91%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_23 rec:recommends rec:REC_9체02_23_1 .
+rec:REC_9체02_23_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 오리엔티어링 등산 안전"@ko ;
+  rec:searchKeyword "오리엔티어링 등산 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%98%A4%EB%A6%AC%EC%97%94%ED%8B%B0%EC%96%B4%EB%A7%81%20%EB%93%B1%EC%82%B0%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_23 rec:recommends rec:REC_9체02_23_2 .
+rec:REC_9체02_24_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 캠핑 안전"@ko ;
+  rec:searchKeyword "캠핑 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%BA%A0%ED%95%91%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_24 rec:recommends rec:REC_9체02_24_1 .
+rec:REC_9체02_24_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 오리엔티어링 등산 안전"@ko ;
+  rec:searchKeyword "오리엔티어링 등산 안전"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%98%A4%EB%A6%AC%EC%97%94%ED%8B%B0%EC%96%B4%EB%A7%81%20%EB%93%B1%EC%82%B0%20%EC%95%88%EC%A0%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_24 rec:recommends rec:REC_9체02_24_2 .
+rec:REC_9체02_25_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 페어플레이"@ko ;
+  rec:searchKeyword "스포츠 페어플레이"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%ED%8E%98%EC%96%B4%ED%94%8C%EB%A0%88%EC%9D%B4> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_25 rec:recommends rec:REC_9체02_25_1 .
+rec:REC_9체02_25_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠와 환경 지속가능"@ko ;
+  rec:searchKeyword "스포츠와 환경 지속가능"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%EC%99%80%20%ED%99%98%EA%B2%BD%20%EC%A7%80%EC%86%8D%EA%B0%80%EB%8A%A5> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_25 rec:recommends rec:REC_9체02_25_2 .
+rec:REC_9체02_26_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 페어플레이"@ko ;
+  rec:searchKeyword "스포츠 페어플레이"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%ED%8E%98%EC%96%B4%ED%94%8C%EB%A0%88%EC%9D%B4> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_26 rec:recommends rec:REC_9체02_26_1 .
+rec:REC_9체02_26_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠와 환경 지속가능"@ko ;
+  rec:searchKeyword "스포츠와 환경 지속가능"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%EC%99%80%20%ED%99%98%EA%B2%BD%20%EC%A7%80%EC%86%8D%EA%B0%80%EB%8A%A5> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_26 rec:recommends rec:REC_9체02_26_2 .
+rec:REC_9체02_27_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 페어플레이"@ko ;
+  rec:searchKeyword "스포츠 페어플레이"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%ED%8E%98%EC%96%B4%ED%94%8C%EB%A0%88%EC%9D%B4> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_27 rec:recommends rec:REC_9체02_27_1 .
+rec:REC_9체02_27_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠와 환경 지속가능"@ko ;
+  rec:searchKeyword "스포츠와 환경 지속가능"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%EC%99%80%20%ED%99%98%EA%B2%BD%20%EC%A7%80%EC%86%8D%EA%B0%80%EB%8A%A5> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체02_27 rec:recommends rec:REC_9체02_27_2 .
+rec:REC_9체03_01_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스포츠 표현 역사"@ko ;
+  rec:searchKeyword "스포츠 표현 역사"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%ED%91%9C%ED%98%84%20%EC%97%AD%EC%82%AC> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_01 rec:recommends rec:REC_9체03_01_1 .
+rec:REC_9체03_01_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 댄스스포츠 역사"@ko ;
+  rec:searchKeyword "댄스스포츠 역사"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%8C%84%EC%8A%A4%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EC%97%AD%EC%82%AC> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_01 rec:recommends rec:REC_9체03_01_2 .
+rec:REC_9체03_02_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 댄스스포츠 교본"@ko ;
+  rec:searchKeyword "댄스스포츠 교본"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%8C%84%EC%8A%A4%EC%8A%A4%ED%8F%AC%EC%B8%A0%20%EA%B5%90%EB%B3%B8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_02 rec:recommends rec:REC_9체03_02_1 .
+rec:REC_9체03_02_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 동작 표현 원리"@ko ;
+  rec:searchKeyword "동작 표현 원리"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%8F%99%EC%9E%91%20%ED%91%9C%ED%98%84%20%EC%9B%90%EB%A6%AC> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_02 rec:recommends rec:REC_9체03_02_2 .
+rec:REC_9체03_03_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 치어리딩 안무"@ko ;
+  rec:searchKeyword "치어리딩 안무"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B9%98%EC%96%B4%EB%A6%AC%EB%94%A9%20%EC%95%88%EB%AC%B4> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_03 rec:recommends rec:REC_9체03_03_1 .
+rec:REC_9체03_03_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 창작무용 작품 만들기"@ko ;
+  rec:searchKeyword "창작무용 작품 만들기"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%B0%BD%EC%9E%91%EB%AC%B4%EC%9A%A9%20%EC%9E%91%ED%92%88%20%EB%A7%8C%EB%93%A4%EA%B8%B0> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_03 rec:recommends rec:REC_9체03_03_2 .
+rec:REC_9체03_04_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 전통 놀이"@ko ;
+  rec:searchKeyword "전통 놀이"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%A0%84%ED%86%B5%20%EB%86%80%EC%9D%B4> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_04 rec:recommends rec:REC_9체03_04_1 .
+rec:REC_9체03_04_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 한국무용 전통 표현"@ko ;
+  rec:searchKeyword "한국무용 전통 표현"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%95%9C%EA%B5%AD%EB%AC%B4%EC%9A%A9%20%EC%A0%84%ED%86%B5%20%ED%91%9C%ED%98%84> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_04 rec:recommends rec:REC_9체03_04_2 .
+rec:REC_9체03_05_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 전통무용 동작"@ko ;
+  rec:searchKeyword "전통무용 동작"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%A0%84%ED%86%B5%EB%AC%B4%EC%9A%A9%20%EB%8F%99%EC%9E%91> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_05 rec:recommends rec:REC_9체03_05_1 .
+rec:REC_9체03_05_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 전통 리듬 장단"@ko ;
+  rec:searchKeyword "전통 리듬 장단"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%A0%84%ED%86%B5%20%EB%A6%AC%EB%93%AC%20%EC%9E%A5%EB%8B%A8> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_05 rec:recommends rec:REC_9체03_05_2 .
+rec:REC_9체03_06_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 전통 표현 창작"@ko ;
+  rec:searchKeyword "전통 표현 창작"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%A0%84%ED%86%B5%20%ED%91%9C%ED%98%84%20%EC%B0%BD%EC%9E%91> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_06 rec:recommends rec:REC_9체03_06_1 .
+rec:REC_9체03_06_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 전통 공연 감상 비평"@ko ;
+  rec:searchKeyword "전통 공연 감상 비평"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%A0%84%ED%86%B5%20%EA%B3%B5%EC%97%B0%20%EA%B0%90%EC%83%81%20%EB%B9%84%ED%8F%89> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_06 rec:recommends rec:REC_9체03_06_2 .
+rec:REC_9체03_07_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 현대무용"@ko ;
+  rec:searchKeyword "현대무용"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%98%84%EB%8C%80%EB%AC%B4%EC%9A%A9> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_07 rec:recommends rec:REC_9체03_07_1 .
+rec:REC_9체03_07_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 스트리트댄스 힙합"@ko ;
+  rec:searchKeyword "스트리트댄스 힙합"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%8A%A4%ED%8A%B8%EB%A6%AC%ED%8A%B8%EB%8C%84%EC%8A%A4%20%ED%9E%99%ED%95%A9> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_07 rec:recommends rec:REC_9체03_07_2 .
+rec:REC_9체03_08_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 현대 표현 기법"@ko ;
+  rec:searchKeyword "현대 표현 기법"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%98%84%EB%8C%80%20%ED%91%9C%ED%98%84%20%EA%B8%B0%EB%B2%95> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_08 rec:recommends rec:REC_9체03_08_1 .
+rec:REC_9체03_08_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 무대 동선 공간 활용"@ko ;
+  rec:searchKeyword "무대 동선 공간 활용"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EB%AC%B4%EB%8C%80%20%EB%8F%99%EC%84%A0%20%EA%B3%B5%EA%B0%84%20%ED%99%9C%EC%9A%A9> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_08 rec:recommends rec:REC_9체03_08_2 .
+rec:REC_9체03_09_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 현대 표현 창작"@ko ;
+  rec:searchKeyword "현대 표현 창작"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%ED%98%84%EB%8C%80%20%ED%91%9C%ED%98%84%20%EC%B0%BD%EC%9E%91> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_09 rec:recommends rec:REC_9체03_09_1 .
+rec:REC_9체03_09_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 안무 만들기 워크북"@ko ;
+  rec:searchKeyword "안무 만들기 워크북"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%95%88%EB%AC%B4%20%EB%A7%8C%EB%93%A4%EA%B8%B0%20%EC%9B%8C%ED%81%AC%EB%B6%81> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_09 rec:recommends rec:REC_9체03_09_2 .
+rec:REC_9체03_10_1 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 예술 비평"@ko ;
+  rec:searchKeyword "예술 비평"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EC%98%88%EC%88%A0%20%EB%B9%84%ED%8F%89> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_10 rec:recommends rec:REC_9체03_10_1 .
+rec:REC_9체03_10_2 a rec:BookRecommendation ;
+  rdfs:label "교보문고 검색 추천: 공감적 피드백 방법"@ko ;
+  rec:searchKeyword "공감적 피드백 방법"@ko ;
+  rec:kyoboSearchUrl <https://search.kyobobook.co.kr/search?keyword=%EA%B3%B5%EA%B0%90%EC%A0%81%20%ED%94%BC%EB%93%9C%EB%B0%B1%20%EB%B0%A9%EB%B2%95> ;
+  rec:note "검색 결과에서 중학생 수준(교양/입문/지도서) 도서로 선택"@ko .
+pe:AS_9체03_10 rec:recommends rec:REC_9체03_10_2 .

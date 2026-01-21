@@ -1,0 +1,1425 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PE 스테이디움 스프린트 퀴즈 (자동 달리기 + 자동 다음문제)</title>
+  <style>
+    :root {
+      --bg:#070b14; --panel:#101a33;
+      --text:#eef2ff; --muted:#a7b7e0; --line:rgba(255,255,255,.12);
+      --accent:#7aa8ff; --good:#4fe08d; --bad:#ff6b6b;
+      --coin:#ffd166;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR",sans-serif;
+      background:
+        radial-gradient(900px 520px at 15% -10%, rgba(122,168,255,.22), transparent 55%),
+        radial-gradient(900px 520px at 95% 10%, rgba(79,224,141,.12), transparent 60%),
+        linear-gradient(180deg, #050810 0%, var(--bg) 70%, #050810 100%);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    .view{display:none; max-width:1100px; margin:0 auto; padding:18px}
+    .view.active{display:block}
+
+    .card{
+      background: rgba(16,26,51,.90);
+      border:1px solid var(--line);
+      border-radius: 20px;
+      padding:16px;
+      box-shadow: 0 16px 46px rgba(0,0,0,.42);
+    }
+    .topTitle{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    h1{margin:0; font-size:18px; letter-spacing:-0.2px}
+    p{margin:8px 0 0 0; color:var(--muted); font-size:13px; line-height:1.45}
+    .badge{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:4px 10px; border-radius:999px;
+      border:1px solid rgba(122,168,255,.45);
+      background: rgba(122,168,255,.14);
+      color: var(--accent);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    label{display:block; margin:10px 0 6px; color:var(--muted); font-size:12.8px}
+    input, select, button {
+      width:100%;
+      padding:12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(9,14,26,.92);
+      color: var(--text);
+      font-size:14px;
+      outline:none;
+    }
+    button{cursor:pointer}
+    button.primary{background: rgba(122,168,255,.18); border-color: rgba(122,168,255,.55)}
+    button.secondary{background: rgba(255,255,255,.06); border-color: var(--line)}
+    button.danger{background: rgba(255,107,107,.14); border-color: rgba(255,107,107,.35)}
+
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .row > *{flex:1; min-width:240px}
+    .btnRow{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+    .btnRow button{flex:1; min-width:180px}
+    .tiny{font-size:12px; color:var(--muted); line-height:1.35}
+
+    .hud{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center; justify-content:space-between;
+      padding: 10px 12px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(16,26,51,.70);
+      backdrop-filter: blur(8px);
+    }
+    .pill{
+      padding:6px 10px; border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      font-size:12.5px; color:var(--muted);
+      white-space:nowrap;
+    }
+    .progressWrap{flex:1; min-width:220px}
+    .progress{height:10px; background: rgba(255,255,255,.08); border:1px solid var(--line); border-radius:999px; overflow:hidden}
+    .bar{height:100%; width:0%; background: rgba(122,168,255,.88); transition: width 280ms ease}
+
+    .gameShell{
+      display:grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap:14px;
+      min-height: calc(100vh - 36px);
+    }
+    @media (max-width: 980px){ .gameShell{grid-template-columns:1fr;} }
+
+    .trackCard{
+      background: rgba(12,19,39,.92);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 12px;
+      box-shadow: 0 16px 46px rgba(0,0,0,.34);
+    }
+    canvas{width:100%; height:340px; display:block; border-radius: 16px;}
+    .hint{margin-top:10px; color:var(--muted); font-size:12px; line-height:1.4}
+
+    .quizCard{
+      background: rgba(16,26,51,.90);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 16px 46px rgba(0,0,0,.34);
+    }
+    .qTitle{font-size:16px; margin:0 0 6px 0; line-height:1.35}
+    .qMeta{font-size:12.5px; color:var(--muted)}
+    .choices{display:grid; gap:10px; margin-top:12px}
+    .choiceBtn{
+      text-align:left;
+      background: rgba(9,14,26,.92);
+      border: 1px solid var(--line);
+      padding: 12px 12px;
+      border-radius: 16px;
+      cursor:pointer;
+      transition: transform .12s ease, border-color .12s ease;
+    }
+    .choiceBtn:hover{transform: translateY(-1px); border-color: rgba(122,168,255,.60)}
+    .choiceBtn:disabled{opacity:.72; cursor:not-allowed}
+
+    .feedback{
+      margin-top:12px;
+      padding:12px 12px;
+      border-radius: 16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      display:none;
+      line-height:1.45;
+    }
+    .feedback.good{display:block; border-color: rgba(79,224,141,0.40); background: rgba(79,224,141,0.08)}
+    .feedback.bad{display:block; border-color: rgba(255,107,107,0.40); background: rgba(255,107,107,0.08)}
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      padding:10px 14px;
+      background: rgba(9,14,26,.92);
+      border:1px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      font-size:13px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index:50;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+  </style>
+</head>
+<body>
+
+<section class="view active" id="setupView">
+  <div class="card">
+    <div class="topTitle">
+      <div>
+        <h1>🏟️ PE 스테이디움 스프린트 퀴즈 (자연스러운 자동 달리기)</h1>
+        <p>
+          ✔️ 시작하면 캐릭터가 <b>자동으로 계속 달려요</b>.<br>
+          ✅ 정답 → <b>출발선으로 리셋</b> 후 다시 달리기 + <b>다음 문제 자동</b><br>
+          ❌ 오답 → <b>넘어짐</b> → <b>그 자리에서 다시 달려 결승선 통과</b> + <b>다음 문제 자동</b><br>
+          🎯 영역별 <b>5문제</b>
+        </p>
+      </div>
+      <span class="badge">형성평가용</span>
+    </div>
+
+    <div class="row" style="margin-top:12px;">
+      <div>
+        <label>학생 이름</label>
+        <input id="studentName" placeholder="예: 김OO" />
+        <div class="tiny">* 결과 저장은 이 컴퓨터(브라우저 로컬)만 사용합니다.</div>
+      </div>
+      <div>
+        <label>스테이지(영역) 선택</label>
+        <select id="domainSelect"></select>
+        <div class="tiny" id="domainRange">-</div>
+      </div>
+    </div>
+
+    <div class="btnRow">
+      <button class="primary" id="startBtn">▶️ 시작</button>
+      <button class="secondary" id="exportBtn">⬇️ 결과 CSV</button>
+      <button class="danger" id="clearBtn">🗑️ 기록 삭제</button>
+    </div>
+
+    <div class="card" style="margin-top:14px; background: rgba(12,19,39,.85);">
+      <h2 style="margin:0 0 10px 0; font-size:14px;">최근 기록 <span class="badge">로컬 저장</span></h2>
+      <div id="logBox" class="tiny" style="white-space:pre-wrap;">저장된 기록이 없어요.</div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="gameView">
+  <div class="hud">
+    <button class="secondary" id="backBtn" style="width:auto; padding:9px 12px; border-radius:999px;">⬅️ 설정</button>
+    <div class="pill" id="hudDomain">스테이지: -</div>
+    <div class="pill" id="hudName">학생: -</div>
+    <div class="progressWrap">
+      <div class="progress"><div class="bar" id="bar"></div></div>
+    </div>
+    <div class="pill" id="hudScore">점수: 0</div>
+    <div class="pill" id="hudCount">문항: 0/0</div>
+  </div>
+
+  <div class="gameShell">
+    <div class="trackCard">
+      <canvas id="track" width="900" height="340" aria-label="달리기 트랙"></canvas>
+      <div class="hint">
+        🪙 코인은 <b>보너스</b>, 허들은 <b>연출</b>입니다.<br>
+        * 답을 고르면 애니메이션이 진행되고 <b>자동으로 다음 문제로 넘어갑니다</b>.
+      </div>
+
+      <div class="btnRow" style="margin-top:12px;">
+        <button class="secondary" id="resetBtn">↩️ 다시하기</button>
+        <button class="secondary" id="saveBtn" disabled>✅ 결과 저장</button>
+      </div>
+    </div>
+
+    <div class="quizCard">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+        <span class="badge" id="stageBadge">RUN</span>
+        <span class="pill" id="coinsPill">코인: 0</span>
+      </div>
+
+      <p class="qTitle" id="qText">시작하면 문제가 나옵니다.</p>
+      <div class="qMeta" id="qMeta">성취기준: -</div>
+
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script type="application/ld+json">
+{
+  "@context": {
+    "@vocab": "http://example.org/pe/game#",
+    "schema": "https://schema.org/",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "keywords": "schema:keywords",
+    "hasPart": {
+      "@id": "schema:hasPart",
+      "@type": "@id"
+    },
+    "learningResourceType": "schema:learningResourceType",
+    "educationalLevel": "schema:educationalLevel",
+    "inLanguage": "schema:inLanguage",
+    "typicalAgeRange": "schema:typicalAgeRange",
+    "question": "schema:question",
+    "text": "schema:text",
+    "answerExplanation": "schema:answerExplanation",
+    "standardCode": "standardCode",
+    "domainId": "domainId",
+    "choices": "choices",
+    "correctIndex": "correctIndex"
+  },
+  "@id": "game:TaekwondoBreakQuiz",
+  "@type": "schema:LearningResource",
+  "name": "태권도 격파 형성평가 게임(체육 성취기준 기반)",
+  "description": "문제가 나오면 태권도 선수가 격파. 정답=판자 격파(효과음), 오답=선수 아파하는 연출.",
+  "learningResourceType": "FormativeAssessmentGame",
+  "educationalLevel": "중학교(1~3학년)",
+  "inLanguage": "ko-KR",
+  "typicalAgeRange": "13-15",
+  "keywords": [
+    "체육",
+    "형성평가",
+    "게임",
+    "태권도",
+    "성취기준"
+  ],
+  "domains": [
+    {
+      "id": "health",
+      "title": "건강",
+      "range": "9체01-01~9체01-14",
+      "keywords": [
+        "체력",
+        "운동처방",
+        "안전",
+        "건강관리"
+      ]
+    },
+    {
+      "id": "action",
+      "title": "동작형 스포츠",
+      "range": "9체02-01~9체02-03",
+      "keywords": [
+        "기술",
+        "원리",
+        "전략",
+        "안전"
+      ]
+    },
+    {
+      "id": "combat",
+      "title": "투기형 스포츠",
+      "range": "9체02-07~9체02-09",
+      "keywords": [
+        "태권도",
+        "안전",
+        "예절"
+      ]
+    },
+    {
+      "id": "invasion",
+      "title": "영역형 스포츠",
+      "range": "9체02-10~9체02-12",
+      "keywords": [
+        "농구",
+        "축구",
+        "전술",
+        "공간"
+      ]
+    },
+    {
+      "id": "field",
+      "title": "필드형 스포츠",
+      "range": "9체02-13~9체02-15",
+      "keywords": [
+        "필드",
+        "기능",
+        "상황판단"
+      ]
+    },
+    {
+      "id": "net",
+      "title": "네트형 스포츠",
+      "range": "9체02-16~9체02-18",
+      "keywords": [
+        "배드민턴",
+        "배구",
+        "랠리",
+        "서브"
+      ]
+    },
+    {
+      "id": "life",
+      "title": "생활/자연환경형+태도",
+      "range": "9체02-19~9체02-27",
+      "keywords": [
+        "생활스포츠",
+        "야외안전",
+        "스포츠맨십",
+        "환경"
+      ]
+    },
+    {
+      "id": "expr",
+      "title": "스포츠 표현",
+      "range": "9체03-01~9체03-10",
+      "keywords": [
+        "리듬",
+        "동선",
+        "창작",
+        "감상"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "@id": "q:H1",
+      "@type": "schema:Question",
+      "domainId": "health",
+      "standardCode": "9체01-01",
+      "question": {
+        "@type": "schema:Text",
+        "text": "체력 증진을 위해 가장 중요한 원리는 무엇일까요?"
+      },
+      "choices": [
+        "무조건 오래 하기",
+        "점진적으로 강도를 올리기",
+        "아픈 부위도 참고 하기",
+        "하루에 한 번만 하면 충분"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "체력은 점진적으로(조금씩) 부담을 늘릴 때 안전하게 향상돼요."
+    },
+    {
+      "@id": "q:H2",
+      "@type": "schema:Question",
+      "domainId": "health",
+      "standardCode": "9체01-04",
+      "question": {
+        "@type": "schema:Text",
+        "text": "체력을 진단할 때 가장 안전한 방법은?"
+      },
+      "choices": [
+        "혼자 무리해서 최대 기록 도전",
+        "준비운동 없이 바로 측정",
+        "자기 수준에 맞게 단계적으로 측정",
+        "아프면 참고 계속"
+      ],
+      "correctIndex": 2,
+      "answerExplanation": "측정은 단계적으로, 내 수준에 맞게 해야 안전해요."
+    },
+    {
+      "@id": "q:H3",
+      "@type": "schema:Question",
+      "domainId": "health",
+      "standardCode": "9체01-06",
+      "question": {
+        "@type": "schema:Text",
+        "text": "운동 처방 계획을 세울 때 가장 먼저 확인할 것은?"
+      },
+      "choices": [
+        "친구가 하는 운동",
+        "내 몸 상태와 체력 수준",
+        "유행하는 운동",
+        "비싼 운동기구"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "운동 처방은 '나'의 신체 조건과 체력 수준이 기준이에요."
+    },
+    {
+      "@id": "q:A1",
+      "@type": "schema:Question",
+      "domainId": "action",
+      "standardCode": "9체02-01",
+      "question": {
+        "@type": "schema:Text",
+        "text": "동작형 스포츠의 특징으로 알맞은 것은?"
+      },
+      "choices": [
+        "점수보다 표현이 중요",
+        "기술 동작의 정확성이 중요",
+        "환경 친화가 핵심",
+        "기록(시간)이 가장 중요"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "동작형 스포츠는 기술 동작의 정확한 수행이 핵심이에요."
+    },
+    {
+      "@id": "q:A2",
+      "@type": "schema:Question",
+      "domainId": "action",
+      "standardCode": "9체02-02",
+      "question": {
+        "@type": "schema:Text",
+        "text": "기술을 더 잘 하려면 어떤 연습이 좋을까요?"
+      },
+      "choices": [
+        "무조건 빠르게 반복",
+        "원리를 이해하고 정확히 반복",
+        "실수하면 바로 포기",
+        "준비운동 없이 바로 실전"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "원리를 이해하고 정확히 반복하면 실력이 빠르게 늘어요."
+    },
+    {
+      "@id": "q:A3",
+      "@type": "schema:Question",
+      "domainId": "action",
+      "standardCode": "9체02-03",
+      "question": {
+        "@type": "schema:Text",
+        "text": "경기 중 안전을 위해 가장 먼저 해야 할 행동은?"
+      },
+      "choices": [
+        "무리한 몸싸움",
+        "규칙 확인과 안전거리 유지",
+        "더 빨리 달리기",
+        "친구를 밀어 공간 만들기"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "규칙과 안전거리, 충돌 예방이 가장 중요해요."
+    },
+    {
+      "@id": "q:C1",
+      "@type": "schema:Question",
+      "domainId": "combat",
+      "standardCode": "9체02-07",
+      "question": {
+        "@type": "schema:Text",
+        "text": "투기형 스포츠에서 가장 중요한 태도는?"
+      },
+      "choices": [
+        "상대를 이기기만 하면 됨",
+        "상대 존중과 규칙 준수",
+        "힘으로 밀어붙이기",
+        "큰 소리로 위협하기"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "투기형 스포츠는 예절과 규칙, 상대 존중이 기본이에요."
+    },
+    {
+      "@id": "q:C2",
+      "@type": "schema:Question",
+      "domainId": "combat",
+      "standardCode": "9체02-08",
+      "question": {
+        "@type": "schema:Text",
+        "text": "안전한 기본 자세/스텝을 연습하는 이유로 맞는 것은?"
+      },
+      "choices": [
+        "더 세게 때리기 위해",
+        "균형과 거리 조절로 부상 예방",
+        "상대를 놀라게 하려고",
+        "빨리 끝내려고"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "균형과 거리 조절이 부상을 줄여요."
+    },
+    {
+      "@id": "q:C3",
+      "@type": "schema:Question",
+      "domainId": "combat",
+      "standardCode": "9체02-09",
+      "question": {
+        "@type": "schema:Text",
+        "text": "경기 전략을 활용할 때 가장 바람직한 모습은?"
+      },
+      "choices": [
+        "반칙을 써서라도 이김",
+        "상대와 안전을 우선하며 전략 사용",
+        "무조건 공격만 함",
+        "상대가 넘어지면 그대로 둠"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "전략은 규칙과 안전을 지키면서 사용해야 해요."
+    },
+    {
+      "@id": "q:I1",
+      "@type": "schema:Question",
+      "domainId": "invasion",
+      "standardCode": "9체02-10",
+      "question": {
+        "@type": "schema:Text",
+        "text": "영역형 스포츠(예: 농구/축구)에서 중요한 것은?"
+      },
+      "choices": [
+        "한 자리에서만 플레이",
+        "공간을 만들고 이동하며 협력",
+        "자유롭게 반칙",
+        "혼자만 공 잡기"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "공간 만들기·이동·협력이 중요해요."
+    },
+    {
+      "@id": "q:I2",
+      "@type": "schema:Question",
+      "domainId": "invasion",
+      "standardCode": "9체02-11",
+      "question": {
+        "@type": "schema:Text",
+        "text": "공격에서 '공간 만들기'에 가장 도움이 되는 행동은?"
+      },
+      "choices": [
+        "같은 곳에 몰리기",
+        "패스 후 빈 공간으로 이동",
+        "공 없이 서 있기",
+        "상대를 밀기"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "패스 후 이동하면 패스 길이 열려요."
+    },
+    {
+      "@id": "q:I3",
+      "@type": "schema:Question",
+      "domainId": "invasion",
+      "standardCode": "9체02-12",
+      "question": {
+        "@type": "schema:Text",
+        "text": "수비 전환이 빠른 팀의 장점은?"
+      },
+      "choices": [
+        "체력이 줄어듦",
+        "실점 가능성을 줄임",
+        "반칙이 늘어남",
+        "공을 안 뺏어도 됨"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "전환이 빠르면 실점을 줄이고 기회를 만들 수 있어요."
+    },
+    {
+      "@id": "q:F1",
+      "@type": "schema:Question",
+      "domainId": "field",
+      "standardCode": "9체02-13",
+      "question": {
+        "@type": "schema:Text",
+        "text": "필드형 스포츠의 예로 알맞은 것은?"
+      },
+      "choices": [
+        "배드민턴",
+        "축구",
+        "야구",
+        "태권도"
+      ],
+      "correctIndex": 2,
+      "answerExplanation": "야구처럼 넓은 필드에서 진행되는 종목이 해당돼요."
+    },
+    {
+      "@id": "q:F2",
+      "@type": "schema:Question",
+      "domainId": "field",
+      "standardCode": "9체02-14",
+      "question": {
+        "@type": "schema:Text",
+        "text": "필드형 스포츠에서 기본 기능을 향상하려면?"
+      },
+      "choices": [
+        "감으로만 하기",
+        "기본자세→정확도→상황 적용 순서",
+        "무작정 강하게",
+        "연습하지 않기"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "기본자세와 정확도를 쌓고 상황에 적용해요."
+    },
+    {
+      "@id": "q:F3",
+      "@type": "schema:Question",
+      "domainId": "field",
+      "standardCode": "9체02-15",
+      "question": {
+        "@type": "schema:Text",
+        "text": "상황에 맞는 전략 활용으로 가장 적절한 것은?"
+      },
+      "choices": [
+        "항상 같은 선택",
+        "상대 위치를 보고 안전한 선택",
+        "위험해도 무리",
+        "규칙 무시"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "상황 판단 + 안전 + 규칙이 함께 가야 해요."
+    },
+    {
+      "@id": "q:N1",
+      "@type": "schema:Question",
+      "domainId": "net",
+      "standardCode": "9체02-16",
+      "question": {
+        "@type": "schema:Text",
+        "text": "네트형 스포츠의 특징은?"
+      },
+      "choices": [
+        "상대 진영으로 공을 보내 득점",
+        "상대를 넘어뜨려 득점",
+        "기록 측정이 핵심",
+        "표현이 가장 중요"
+      ],
+      "correctIndex": 0,
+      "answerExplanation": "네트 너머로 공을 보내며 랠리와 득점이 이루어져요."
+    },
+    {
+      "@id": "q:N2",
+      "@type": "schema:Question",
+      "domainId": "net",
+      "standardCode": "9체02-17",
+      "question": {
+        "@type": "schema:Text",
+        "text": "랠리를 오래 이어가려면 중요한 것은?"
+      },
+      "choices": [
+        "무조건 강하게 치기",
+        "정확한 방향·높이 조절",
+        "눈 감고 치기",
+        "준비운동 생략"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "강약 조절과 정확도가 랠리를 살려요."
+    },
+    {
+      "@id": "q:N3",
+      "@type": "schema:Question",
+      "domainId": "net",
+      "standardCode": "9체02-18",
+      "question": {
+        "@type": "schema:Text",
+        "text": "안전하게 경기하기 위한 행동은?"
+      },
+      "choices": [
+        "서로 부딪혀도 계속",
+        "라인과 주변을 확인하며 이동",
+        "라켓을 휘두르며 뛰기",
+        "상대 가까이 붙기"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "주변 확인과 안전거리가 중요해요."
+    },
+    {
+      "@id": "q:L1",
+      "@type": "schema:Question",
+      "domainId": "life",
+      "standardCode": "9체02-22",
+      "question": {
+        "@type": "schema:Text",
+        "text": "자연환경형 스포츠(예: 등산/캠핑)에서 가장 중요한 것은?"
+      },
+      "choices": [
+        "멋있는 사진",
+        "안전 장비·날씨 확인",
+        "빠른 속도",
+        "무리한 도전"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "야외는 안전 준비가 1순위예요."
+    },
+    {
+      "@id": "q:L2",
+      "@type": "schema:Question",
+      "domainId": "life",
+      "standardCode": "9체02-26",
+      "question": {
+        "@type": "schema:Text",
+        "text": "경기 예절과 팀 목표 달성을 위해 바람직한 모습은?"
+      },
+      "choices": [
+        "실수한 친구 탓하기",
+        "서로 격려하며 역할 수행",
+        "반칙을 유도",
+        "상대 비난"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "신뢰·협력·예절이 팀을 강하게 해요."
+    },
+    {
+      "@id": "q:L3",
+      "@type": "schema:Question",
+      "domainId": "life",
+      "standardCode": "9체02-27",
+      "question": {
+        "@type": "schema:Text",
+        "text": "지속가능한 스포츠 환경을 위해 할 수 있는 행동은?"
+      },
+      "choices": [
+        "쓰레기 버리기",
+        "장비 함부로 두기",
+        "사용한 곳 정리하고 쓰레기 되가져오기",
+        "시설 훼손"
+      ],
+      "correctIndex": 2,
+      "answerExplanation": "환경을 지키는 태도도 체육의 중요한 가치예요."
+    },
+    {
+      "@id": "q:E1",
+      "@type": "schema:Question",
+      "domainId": "expr",
+      "standardCode": "9체03-01",
+      "question": {
+        "@type": "schema:Text",
+        "text": "스포츠 표현의 목적에 가장 가까운 것은?"
+      },
+      "choices": [
+        "기록을 재기",
+        "동작을 아름답게 표현하고 감상",
+        "상대를 이기기",
+        "반칙을 줄이기"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "표현은 움직임을 심미적으로 구성하고 감상하는 활동이에요."
+    },
+    {
+      "@id": "q:E2",
+      "@type": "schema:Question",
+      "domainId": "expr",
+      "standardCode": "9체03-03",
+      "question": {
+        "@type": "schema:Text",
+        "text": "작품을 창작할 때 중요한 것은?"
+      },
+      "choices": [
+        "아무렇게나 하기",
+        "리듬·동선·강약을 고려",
+        "동작을 숨기기",
+        "같은 동작만 반복"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "표현 요소(리듬·공간·강약)를 고려하면 완성도가 올라가요."
+    },
+    {
+      "@id": "q:E3",
+      "@type": "schema:Question",
+      "domainId": "expr",
+      "standardCode": "9체03-10",
+      "question": {
+        "@type": "schema:Text",
+        "text": "비평을 할 때 가장 바람직한 말하기는?"
+      },
+      "choices": [
+        "무조건 깎아내리기",
+        "좋은 점 1개 + 개선점 1개를 존중 표현",
+        "웃기기",
+        "침묵"
+      ],
+      "correctIndex": 1,
+      "answerExplanation": "공감하고 존중하는 피드백이 성장에 도움돼요."
+    }
+  ]
+}
+</script>
+
+<script>
+/* ===== DATA ===== */
+const rdf = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);
+const DOMAINS = rdf.domains;
+const QUESTIONS = rdf.questions;
+
+/* ===== Helpers ===== */
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+const STORAGE_KEY = "pe_sprint_quiz_logs_v3_autorun";
+
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 900);
+}
+function showView(id) {
+  $$(".view").forEach(v => v.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+function shuffle(arr) {
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+let audioCtx;
+function sfx(type="good") {
+  try {
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    if(type==="good") {
+      o.type="triangle";
+      o.frequency.setValueAtTime(680, audioCtx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(1280, audioCtx.currentTime + 0.12);
+      g.gain.setValueAtTime(0.18, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.18);
+      o.start(); o.stop(audioCtx.currentTime + 0.19);
+    } else {
+      o.type="sawtooth";
+      o.frequency.setValueAtTime(240, audioCtx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.12);
+      g.gain.setValueAtTime(0.22, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.20);
+      o.start(); o.stop(audioCtx.currentTime + 0.21);
+    }
+  } catch(e) {}
+}
+
+function loadLogs(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return [];
+    const data = JSON.parse(raw);
+    return Array.isArray(data) ? data : [];
+  } catch(e) { return []; }
+}
+function saveLogs(logs){ localStorage.setItem(STORAGE_KEY, JSON.stringify(logs)); }
+function nowStr(){
+  const d = new Date();
+  const p = (n)=>String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+function renderLogs(){
+  const logs = loadLogs();
+  if(!logs.length) {
+    $("#logBox").textContent = "저장된 기록이 없어요.";
+    return;
+  }
+  const last = logs.slice(-10).reverse();
+  $("#logBox").textContent = last.map(r =>
+    `• ${r.time} | ${r.name} | ${r.domain} | ${r.score}/${r.totalQ} (코인 ${r.coins})`
+  ).join("\n");
+}
+function exportCSV(){
+  const logs = loadLogs();
+  if(!logs.length) {
+    alert("내보낼 기록이 없어요!");
+    return;
+  }
+  const headers = ["time","name","domain","range","totalQ","score","coins","rate"];
+  const rows = logs.map(r => headers.map(h => `"${String(r[h] ?? "").replace(/"/g,'""')}"`).join(","));
+  const csv = [headers.join(","), ...rows].join("\n");
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `PE_Sprint_Quiz_Logs_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function clearLogs(){
+  if(!confirm("기록을 모두 삭제할까요? (되돌릴 수 없음)")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  renderLogs();
+  toast("기록 삭제");
+}
+
+/* ===== Quiz State ===== */
+let currentDomainId = DOMAINS[0].id;
+let pool = [];
+let idx = 0;
+let score = 0;
+let coins = 0;
+let answeredLock = false;
+
+/* ===== Track State (AUTO RUN) ===== */
+const canvas = $("#track");
+const ctx = canvas.getContext("2d");
+let W = canvas.width, H = canvas.height;
+
+const state = {
+  t: 0,
+  camX: 0,
+  startX: 140,
+  finishX: 1700,     // 충분히 길게
+  runnerX: 140,
+  runnerY: 226,
+  baseV: 4.0,        // 평상시 자동 달리기 속도
+  v: 4.0,
+  phase: "cruise",   // cruise | stumble
+  stumbleTimer: 0,
+  wobble: 0,
+  particles: [],
+  message: "",
+
+  // lap control
+  awaitingAnswer: true,
+  pendingAdvance: false,
+  correctResetNext: false,
+
+  // obstacles
+  coins: [],
+  hurdles: []
+};
+
+function roundRect(ctx,x,y,w,h,r){
+  const rr = Math.min(r,w/2,h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+rr,y);
+  ctx.arcTo(x+w,y,x+w,y+h,rr);
+  ctx.arcTo(x+w,y+h,x,y+h,rr);
+  ctx.arcTo(x,y+h,x,y,rr);
+  ctx.arcTo(x,y,x+w,y,rr);
+  ctx.closePath();
+}
+
+function spawnBurst(x,y,good=true){
+  for(let i=0;i<16;i++) {
+    const a = Math.random()*Math.PI*2;
+    const sp = 1.4 + Math.random()*3.8;
+    state.particles.push({
+      x,y, vx: Math.cos(a)*sp, vy: Math.sin(a)*sp,
+      life: 42 + Math.random()*18,
+      good
+    });
+  }
+}
+
+function resetLapObjects(){
+  // 코인/허들 배치(매 랩마다 리셋)
+  state.coins = [];
+  state.hurdles = [];
+  for(let i=1;i<=7;i++) {
+    state.hurdles.push({x: 260 + i*210, y: 240, hit:false});
+  }
+  for(let i=1;i<=7;i++) {
+    state.coins.push({x: 200 + i*235, y: 170, taken:false});
+  }
+}
+
+function resetToStart(){
+  state.runnerX = state.startX;
+  state.camX = 0;
+  state.v = state.baseV;
+  state.phase = "cruise";
+  state.stumbleTimer = 0;
+  state.wobble = 0;
+  state.message = "";
+  resetLapObjects();
+}
+
+function drawTrack(){
+  ctx.clearRect(0,0,W,H);
+
+  ctx.save();
+  if(state.wobble>0) {
+    const s = Math.sin(state.t*0.6)*state.wobble;
+    ctx.translate(s, 0);
+  }
+
+  // sky
+  const grad = ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0, "rgba(122,168,255,0.18)");
+  grad.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,W,H);
+
+  // stands
+  ctx.fillStyle = "rgba(255,255,255,0.05)";
+  ctx.fillRect(0,20,W,70);
+  ctx.fillRect(0,100,W,32);
+
+  // lanes
+  ctx.fillStyle = "rgba(255,255,255,0.04)";
+  ctx.fillRect(0,160,W,170);
+
+  ctx.strokeStyle = "rgba(255,255,255,0.10)";
+  ctx.lineWidth = 2;
+  for(let y=185; y<=305; y+=30) {
+    ctx.beginPath();
+    ctx.moveTo(0,y);
+    ctx.lineTo(W,y);
+    ctx.stroke();
+  }
+
+  ctx.save();
+  ctx.translate(-state.camX, 0);
+
+  // finish banner
+  const fx = state.finishX;
+  ctx.fillStyle = "rgba(255,255,255,0.08)";
+  ctx.fillRect(fx, 140, 14, 200);
+  ctx.fillStyle = "rgba(255,255,255,0.10)";
+  ctx.fillRect(fx+14, 140, 14, 200);
+  ctx.fillStyle = "rgba(122,168,255,0.22)";
+  ctx.fillRect(fx-10, 120, 120, 34);
+  ctx.fillStyle = "rgba(255,255,255,0.88)";
+  ctx.font = "bold 14px system-ui";
+  ctx.fillText("FINISH", fx+20, 143);
+
+  // start marker
+  ctx.fillStyle = "rgba(79,224,141,0.18)";
+  ctx.fillRect(state.startX-12, 150, 6, 190);
+
+  // coins
+  for(const c of state.coins) {
+    if(c.taken) continue;
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    ctx.rotate(Math.sin(state.t*0.08 + c.x*0.02)*0.18);
+    ctx.fillStyle = "rgba(255,209,102,0.55)";
+    ctx.beginPath(); ctx.ellipse(0,0,14,10,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "rgba(255,255,255,0.35)";
+    ctx.beginPath(); ctx.ellipse(-3,-2,6,4,0,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+
+  // hurdles
+  for(const h of state.hurdles) {
+    ctx.save();
+    ctx.translate(h.x,h.y);
+    if(h.hit) {
+      ctx.rotate(0.45);
+      ctx.translate(0, 18);
+    }
+    ctx.strokeStyle = "rgba(255,255,255,0.28)";
+    ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.moveTo(-14, 30); ctx.lineTo(-14, 0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo( 14, 30); ctx.lineTo( 14, 0); ctx.stroke();
+    ctx.strokeStyle = "rgba(255,107,107,0.55)";
+    ctx.lineWidth = 8;
+    ctx.beginPath(); ctx.moveTo(-22, 8); ctx.lineTo(22, 8); ctx.stroke();
+    ctx.restore();
+  }
+
+  // runner
+  const rx = state.runnerX, ry = state.runnerY;
+  const moving = true;
+  const legSwing = Math.sin(state.t*0.22) * (moving ? 10 : 4);
+  const armSwing = Math.sin(state.t*0.22 + 1.4) * (moving ? 10 : 4);
+
+  ctx.save();
+  ctx.translate(rx, ry);
+
+  // shadow
+  ctx.fillStyle = "rgba(0,0,0,0.25)";
+  ctx.beginPath(); ctx.ellipse(0, 56, 26, 8, 0, 0, Math.PI*2); ctx.fill();
+
+  // body
+  ctx.fillStyle = "rgba(255,255,255,0.92)";
+  roundRect(ctx, -18, 10, 36, 34, 10); ctx.fill();
+  // belt
+  ctx.fillStyle = "rgba(0,0,0,0.75)";
+  roundRect(ctx, -18, 28, 36, 8, 5); ctx.fill();
+
+  // head
+  ctx.fillStyle = "rgba(255,224,189,0.98)";
+  ctx.beginPath(); ctx.arc(0, 0, 16, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = "rgba(22,24,32,0.92)";
+  ctx.beginPath(); ctx.arc(0, -4, 16, Math.PI, Math.PI*2); ctx.fill();
+
+  // arms
+  ctx.strokeStyle = "rgba(255,255,255,0.92)";
+  ctx.lineWidth = 8;
+  ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(-10, 18); ctx.lineTo(-24, 30 + armSwing*0.08); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo( 10, 18); ctx.lineTo( 26, 26 - armSwing*0.08); ctx.stroke();
+
+  // legs
+  ctx.strokeStyle = "rgba(255,255,255,0.92)";
+  ctx.lineWidth = 10;
+  ctx.beginPath(); ctx.moveTo(-8, 44); ctx.lineTo(-18, 66 + legSwing*0.10); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo( 8, 44); ctx.lineTo( 20, 66 - legSwing*0.10); ctx.stroke();
+
+  // stumble 표시
+  if(state.phase==="stumble") {
+    ctx.strokeStyle = "rgba(255,107,107,0.40)";
+    ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.moveTo(-40, 30); ctx.lineTo(-18, 30); ctx.stroke();
+  }
+
+  ctx.restore();
+
+  ctx.restore(); // world
+
+  // particles (screen space)
+  for(const p of state.particles) {
+    ctx.fillStyle = p.good ? "rgba(79,224,141,0.75)" : "rgba(255,107,107,0.75)";
+    ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill();
+  }
+
+  // overlay message
+  if(state.message) {
+    ctx.fillStyle = "rgba(9,14,26,0.72)";
+    roundRect(ctx, 18, 18, 360, 42, 14); ctx.fill();
+    ctx.fillStyle = "rgba(255,255,255,0.92)";
+    ctx.font = "600 14px system-ui";
+    ctx.fillText(state.message, 32, 45);
+  }
+
+  ctx.restore();
+}
+
+function updateTrack(){
+  state.t++;
+
+  // auto run
+  if(state.phase==="stumble") {
+    state.stumbleTimer--;
+    state.v = Math.max(1.2, state.baseV * 0.65);
+    state.wobble = 4;
+    if(state.stumbleTimer <= 0) {
+      state.phase = "cruise";
+      state.v = state.baseV;
+      state.message = "";
+    }
+  } else {
+    state.v = state.baseV;
+  }
+
+  state.runnerX += state.v;
+  state.camX = Math.max(0, state.runnerX - 180);
+
+  // coin pickup (always)
+  for(const c of state.coins) {
+    if(c.taken) continue;
+    if(Math.abs((state.runnerX+10) - c.x) < 18) {
+      c.taken = true;
+      spawnBurst(240, 180, true);
+    }
+  }
+
+  // hurdle hit (visual only)
+  for(const h of state.hurdles) {
+    if(h.hit) continue;
+    if(Math.abs((state.runnerX+10) - h.x) < 14 && state.phase==="stumble") {
+      h.hit = true;
+    }
+  }
+
+  // particles physics
+  for(const p of state.particles) {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vx *= 0.97;
+    p.vy *= 0.97;
+    p.life -= 1;
+  }
+  state.particles = state.particles.filter(p=>p.life>0);
+  if(state.wobble>0) state.wobble *= 0.88;
+
+  // lap finish behavior
+  if(state.runnerX >= state.finishX) {
+    // 랩이 끝남
+    if(state.pendingAdvance) {
+      // 정답/오답 처리 후 다음 문제로 자동 진행
+      advanceQuestionAuto();
+      // 다음 문제 시작: 무조건 새 랩(출발선)에서 다시 뛰기
+      resetToStart();
+      state.pendingAdvance = false;
+      state.correctResetNext = false;
+    } else {
+      // 아직 답을 안 고른 상태인데 결승선 도달 → 자연스럽게 루프
+      resetToStart();
+    }
+  }
+}
+
+let raf;
+function loop(){
+  updateTrack();
+  drawTrack();
+  raf = requestAnimationFrame(loop);
+}
+
+/* ===== QUIZ UI ===== */
+function lockChoices(flag) {
+  $$("#choices .choiceBtn").forEach(b => b.disabled = flag);
+}
+
+function updateHUD() {
+  const name = $("#studentName").value.trim() || "-";
+  const dom = DOMAINS.find(d=>d.id===currentDomainId);
+  $("#hudName").textContent = `학생: ${name}`;
+  $("#hudDomain").textContent = `스테이지: ${dom?.title ?? "-"}`;
+  $("#hudScore").textContent = `점수: ${score}`;
+  $("#hudCount").textContent = `문항: ${Math.min(idx+1, pool.length)}/${pool.length}`;
+  $("#bar").style.width = pool.length ? `${(Math.min(idx, pool.length)/pool.length)*100}%` : "0%";
+  $("#coinsPill").textContent = `코인: ${coins}`;
+}
+
+function setFeedback(type, html) {
+  const fb = $("#feedback");
+  fb.className = "feedback " + type;
+  fb.style.display = "block";
+  fb.innerHTML = html;
+}
+
+function buildPool() {
+  const q = QUESTIONS.filter(x => x.domainId === currentDomainId);
+  const picked = shuffle(q);
+  pool = picked.slice(0, 5);
+  if(pool.length < 5) {
+    const extra = shuffle(QUESTIONS.filter(x => x.domainId !== currentDomainId));
+    pool = pool.concat(extra.slice(0, 5 - pool.length));
+  }
+  idx = 0;
+  score = 0;
+  coins = 0;
+  answeredLock = false;
+}
+
+function renderQuestion() {
+  const fb = $("#feedback");
+  fb.className = "feedback";
+  fb.style.display = "none";
+  fb.textContent = "";
+  $("#saveBtn").disabled = true;
+
+  if(idx >= pool.length) {
+    $("#qText").textContent = "🎉 5문항을 모두 완료했어요! 저장 버튼을 눌러 기록을 남기세요.";
+    $("#qMeta").textContent = "성취기준: -";
+    $("#choices").innerHTML = "";
+    lockChoices(true);
+    $("#saveBtn").disabled = false;
+    $("#stageBadge").textContent = "DONE";
+    updateHUD();
+    return;
+  }
+
+  const q = pool[idx];
+  $("#qText").textContent = q.question.text;
+  $("#qMeta").textContent = `성취기준: ${q.standardCode}`;
+
+  const choices = $("#choices");
+  choices.innerHTML = "";
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement("button");
+    btn.className = "choiceBtn";
+    btn.type = "button";
+    btn.textContent = `${i+1}. ${c}`;
+    btn.addEventListener("click", ()=>onAnswer(i));
+    choices.appendChild(btn);
+  });
+  lockChoices(false);
+  $("#stageBadge").textContent = "RUN";
+  updateHUD();
+}
+
+function onAnswer(i) {
+  if(answeredLock) return;
+  answeredLock = true;
+
+  const q = pool[idx];
+  const correct = (i === q.correctIndex);
+
+  lockChoices(true);
+
+  if(correct) {
+    score += 1;
+    coins += 1;
+    state.message = "정답! 출발선 리셋 후 다음 문제!";
+    spawnBurst(240, 170, true);
+    sfx("good");
+    setFeedback("good", `✅ 정답! <b>결승선 통과 후 자동 다음 문제</b><br><span style="color:var(--muted)">${q.answerExplanation}</span>`);
+    toast("정답 ✅");
+    // 정답이면 즉시 출발선 리셋
+    resetToStart();
+  } else {
+    state.phase = "stumble";
+    state.stumbleTimer = 34;
+    state.message = "오답… 넘어졌다! 다시 달려!";
+    spawnBurst(240, 200, false);
+    sfx("bad");
+    setFeedback("bad", `❌ 오답! <b>넘어짐 후 계속 달림</b><br><span style="color:var(--muted)">${q.answerExplanation}</span>`);
+    toast("오답 ❌");
+    // 오답은 그 자리에서 계속 달림 (리셋 없음)
+  }
+
+  // 결승선 도달 시 자동으로 다음 문제로 넘어가도록 예약
+  state.pendingAdvance = true;
+}
+
+function advanceQuestionAuto() {
+  idx += 1;
+  answeredLock = false;
+  if(idx >= pool.length) {
+    renderQuestion();
+    $("#saveBtn").disabled = false;
+    return;
+  }
+  renderQuestion();
+}
+
+function startGame() {
+  const name = $("#studentName").value.trim();
+  if(!name) {
+    alert("학생 이름을 입력해 주세요!");
+    $("#studentName").focus();
+    return;
+  }
+  currentDomainId = $("#domainSelect").value;
+  buildPool();
+  showView("#gameView");
+  resetToStart();
+  renderQuestion();
+  updateHUD();
+  if(raf) cancelAnimationFrame(raf);
+  loop();
+  toast("자동 달리기 시작! 🏃");
+}
+
+function resetGame() {
+  buildPool();
+  resetToStart();
+  renderQuestion();
+  updateHUD();
+  toast("다시 시작!");
+}
+
+function saveResult() {
+  const name = $("#studentName").value.trim();
+  if(!name) return;
+  const dom = DOMAINS.find(d=>d.id===currentDomainId);
+  const row = {
+    time: nowStr(),
+    name,
+    domain: dom.title,
+    range: dom.range,
+    totalQ: pool.length,
+    score,
+    coins,
+    rate: Math.round((score/pool.length)*100)
+  };
+  const logs = loadLogs();
+  logs.push(row);
+  saveLogs(logs);
+  renderLogs();
+  toast("저장 완료 ✅");
+}
+
+/* ===== Setup ===== */
+function initDomainSelect() {
+  const sel = $("#domainSelect");
+  sel.innerHTML = DOMAINS.map(d => `<option value="${d.id}">${d.title}</option>`).join("");
+  sel.addEventListener("change", ()=> {
+    currentDomainId = sel.value;
+    const dom = DOMAINS.find(d=>d.id===currentDomainId);
+    $("#domainRange").textContent = `성취기준 범위: ${dom.range}`;
+  });
+  sel.value = currentDomainId;
+  $("#domainRange").textContent = `성취기준 범위: ${DOMAINS[0].range}`;
+}
+
+$("#startBtn").addEventListener("click", startGame);
+$("#backBtn").addEventListener("click", ()=> {
+  showView("#setupView");
+  if(raf) cancelAnimationFrame(raf);
+});
+$("#resetBtn").addEventListener("click", resetGame);
+$("#saveBtn").addEventListener("click", saveResult);
+$("#exportBtn").addEventListener("click", exportCSV);
+$("#clearBtn").addEventListener("click", clearLogs);
+
+function init() {
+  initDomainSelect();
+  renderLogs();
+}
+init();
+</script>
+
+</body>
+</html>

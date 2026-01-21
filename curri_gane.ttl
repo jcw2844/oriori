@@ -1,0 +1,336 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix pe:   <http://example.org/pe/lesson#> .
+
+#################################################################
+# Classes
+#################################################################
+
+pe:AchievementStandard a rdfs:Class ;
+  rdfs:label "체육 성취기준"@ko .
+
+pe:LessonPlan a rdfs:Class ;
+  rdfs:label "체육 지도안"@ko .
+
+pe:GagneEvent a rdfs:Class ;
+  rdfs:label "가네의 9가지 수업사태"@ko .
+
+pe:Activity a rdfs:Class ;
+  rdfs:label "학습 활동"@ko .
+
+pe:Assessment a rdfs:Class ;
+  rdfs:label "평가"@ko .
+
+pe:Material a rdfs:Class ;
+  rdfs:label "준비물/자료"@ko .
+
+#################################################################
+# Properties
+#################################################################
+
+pe:code a rdf:Property ;
+  rdfs:label "성취기준 코드"@ko ;
+  rdfs:domain pe:AchievementStandard ;
+  rdfs:range xsd:string .
+
+pe:description a rdf:Property ;
+  rdfs:label "설명"@ko ;
+  rdfs:range xsd:string .
+
+pe:hasStandard a rdf:Property ;
+  rdfs:label "성취기준 포함"@ko ;
+  rdfs:domain pe:LessonPlan ;
+  rdfs:range pe:AchievementStandard .
+
+pe:hasEvent a rdf:Property ;
+  rdfs:label "수업사태 포함"@ko ;
+  rdfs:domain pe:LessonPlan ;
+  rdfs:range pe:GagneEvent .
+
+pe:eventNumber a rdf:Property ;
+  rdfs:label "수업사태 번호"@ko ;
+  rdfs:domain pe:GagneEvent ;
+  rdfs:range xsd:integer .
+
+pe:teacherAction a rdf:Property ;
+  rdfs:label "교사 활동"@ko ;
+  rdfs:domain pe:GagneEvent ;
+  rdfs:range xsd:string .
+
+pe:learnerAction a rdf:Property ;
+  rdfs:label "학습자 활동"@ko ;
+  rdfs:domain pe:GagneEvent ;
+  rdfs:range xsd:string .
+
+pe:timeMinutes a rdf:Property ;
+  rdfs:label "소요 시간(분)"@ko ;
+  rdfs:domain pe:GagneEvent ;
+  rdfs:range xsd:integer .
+
+pe:hasActivity a rdf:Property ;
+  rdfs:label "활동 연결"@ko ;
+  rdfs:domain pe:GagneEvent ;
+  rdfs:range pe:Activity .
+
+pe:hasAssessment a rdf:Property ;
+  rdfs:label "평가 연결"@ko ;
+  rdfs:domain pe:LessonPlan ;
+  rdfs:range pe:Assessment .
+
+pe:hasMaterial a rdf:Property ;
+  rdfs:label "준비물 포함"@ko ;
+  rdfs:domain pe:LessonPlan ;
+  rdfs:range pe:Material .
+
+pe:targetGrades a rdf:Property ;
+  rdfs:label "대상 학년"@ko ;
+  rdfs:domain pe:LessonPlan ;
+  rdfs:range xsd:string .
+
+pe:classDuration a rdf:Property ;
+  rdfs:label "수업 시간(분)"@ko ;
+  rdfs:domain pe:LessonPlan ;
+  rdfs:range xsd:integer .
+
+pe:learningGoal a rdf:Property ;
+  rdfs:label "학습 목표"@ko ;
+  rdfs:domain pe:LessonPlan ;
+  rdfs:range xsd:string .
+
+#################################################################
+# Achievement Standards (9체01~9체03)
+#################################################################
+
+pe:std_9PE01_01 a pe:AchievementStandard ; pe:code "9체01-01" ; pe:description "체력 증진의 의미를 이해하고 원리를 분석한다."@ko .
+pe:std_9PE01_02 a pe:AchievementStandard ; pe:code "9체01-02" ; pe:description "자신의 체력 수준에 맞는 체력 증진 운동을 실천한다."@ko .
+pe:std_9PE01_03 a pe:AchievementStandard ; pe:code "9체01-03" ; pe:description "체력 관리의 의미를 이해하고 원리를 분석한다."@ko .
+pe:std_9PE01_04 a pe:AchievementStandard ; pe:code "9체01-04" ; pe:description "자신의 체력을 진단하고 적합한 체력 관리 방법을 실천한다."@ko .
+pe:std_9PE01_05 a pe:AchievementStandard ; pe:code "9체01-05" ; pe:description "운동 처방의 의미를 이해하고 원리를 분석한다."@ko .
+pe:std_9PE01_06 a pe:AchievementStandard ; pe:code "9체01-06" ; pe:description "자신의 신체 조건이나 체력에 맞게 운동 처방 계획을 수립하고 안전하게 실천한다."@ko .
+pe:std_9PE01_07 a pe:AchievementStandard ; pe:code "9체01-07" ; pe:description "신체 건강의 의미를 이해하고 신체 건강 활동의 종류와 특성을 분석한다."@ko .
+pe:std_9PE01_08 a pe:AchievementStandard ; pe:code "9체01-08" ; pe:description "자신에게 적합한 신체 건강 활동 방법을 실천한다."@ko .
+pe:std_9PE01_09 a pe:AchievementStandard ; pe:code "9체01-09" ; pe:description "정신 건강의 의미를 이해하고 정신 건강 활동의 종류와 특성을 분석한다."@ko .
+pe:std_9PE01_10 a pe:AchievementStandard ; pe:code "9체01-10" ; pe:description "자신에게 적합한 정신 건강 활동 방법을 실천한다."@ko .
+pe:std_9PE01_11 a pe:AchievementStandard ; pe:code "9체01-11" ; pe:description "사회적 건강의 의미를 이해하고 사회적 건강을 위한 활동의 종류와 특성을 분석한다."@ko .
+pe:std_9PE01_12 a pe:AchievementStandard ; pe:code "9체01-12" ; pe:description "사회적으로 적합한 건강 활동 방법을 실천한다."@ko .
+pe:std_9PE01_13 a pe:AchievementStandard ; pe:code "9체01-13" ; pe:description "체력 운동을 하며 실천 의지와 인내심을 보이고 자기 주도적으로 문제를 해결한다."@ko .
+pe:std_9PE01_14 a pe:AchievementStandard ; pe:code "9체01-14" ; pe:description "건강 활동을 자율적으로 실천하며 자신과 공동체에 대한 안전을 추구한다."@ko .
+
+pe:std_9PE02_01 a pe:AchievementStandard ; pe:code "9체02-01" ; pe:description "동작형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE02_02 a pe:AchievementStandard ; pe:code "9체02-02" ; pe:description "동작형 스포츠의 수행 원리를 적용하여 경기 기능을 수련하고 향상한다."@ko .
+pe:std_9PE02_03 a pe:AchievementStandard ; pe:code "9체02-03" ; pe:description "동작형 스포츠의 경기 방법을 이해하고 경기 전략을 상황에 맞게 활용하며 안전하게 경기한다."@ko .
+pe:std_9PE02_04 a pe:AchievementStandard ; pe:code "9체02-04" ; pe:description "기록형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE02_05 a pe:AchievementStandard ; pe:code "9체02-05" ; pe:description "기록형 스포츠의 수행 원리를 적용하여 경기 기능을 수련하고 향상한다."@ko .
+pe:std_9PE02_06 a pe:AchievementStandard ; pe:code "9체02-06" ; pe:description "기록형 스포츠의 경기 방법을 이해하고 경기 전략을 상황에 맞게 활용하며 안전하게 경기한다."@ko .
+pe:std_9PE02_07 a pe:AchievementStandard ; pe:code "9체02-07" ; pe:description "투기형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE02_08 a pe:AchievementStandard ; pe:code "9체02-08" ; pe:description "투기형 스포츠의 수행 원리를 적용하여 경기 기능을 수련하고 향상한다."@ko .
+pe:std_9PE02_09 a pe:AchievementStandard ; pe:code "9체02-09" ; pe:description "투기형 스포츠의 경기 방법을 이해하고 경기 전략을 상황에 맞게 활용하며 안전하게 경기한다."@ko .
+pe:std_9PE02_10 a pe:AchievementStandard ; pe:code "9체02-10" ; pe:description "영역형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE02_11 a pe:AchievementStandard ; pe:code "9체02-11" ; pe:description "영역형 스포츠의 수행 원리를 적용하여 경기 기능을 수행하고 향상한다."@ko .
+pe:std_9PE02_12 a pe:AchievementStandard ; pe:code "9체02-12" ; pe:description "영역형 스포츠의 경기 방법을 이해하고 경기 전략을 활용하며 안전하게 경기한다."@ko .
+pe:std_9PE02_13 a pe:AchievementStandard ; pe:code "9체02-13" ; pe:description "필드형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE02_14 a pe:AchievementStandard ; pe:code "9체02-14" ; pe:description "필드형 스포츠의 수행 원리를 적용하여 경기 기능을 수행하고 향상한다."@ko .
+pe:std_9PE02_15 a pe:AchievementStandard ; pe:code "9체02-15" ; pe:description "필드형 스포츠의 경기 방법을 이해하고 경기 전략을 활용하며 안전하게 경기한다."@ko .
+pe:std_9PE02_16 a pe:AchievementStandard ; pe:code "9체02-16" ; pe:description "네트형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE02_17 a pe:AchievementStandard ; pe:code "9체02-17" ; pe:description "네트형 스포츠의 수행 원리를 적용하여 경기 기능을 수행하고 향상한다."@ko .
+pe:std_9PE02_18 a pe:AchievementStandard ; pe:code "9체02-18" ; pe:description "네트형 스포츠의 경기 방법을 이해하고 경기 전략을 활용하며 안전하게 경기한다."@ko .
+pe:std_9PE02_19 a pe:AchievementStandard ; pe:code "9체02-19" ; pe:description "생활환경형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE02_20 a pe:AchievementStandard ; pe:code "9체02-20" ; pe:description "생활환경형 스포츠의 수행 원리를 적용하여 기능을 수행하고 향상한다."@ko .
+pe:std_9PE02_21 a pe:AchievementStandard ; pe:code "9체02-21" ; pe:description "생활환경형 스포츠의 활동 방법을 이해하고 활동 전략을 활용하며 안전하게 경기한다."@ko .
+pe:std_9PE02_22 a pe:AchievementStandard ; pe:code "9체02-22" ; pe:description "자연환경형 스포츠의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE02_23 a pe:AchievementStandard ; pe:code "9체02-23" ; pe:description "자연환경형 스포츠의 수행 원리를 적용하여 기능을 수행하고 향상한다."@ko .
+pe:std_9PE02_24 a pe:AchievementStandard ; pe:code "9체02-24" ; pe:description "자연환경형 스포츠의 활동 방법을 이해하고 활동 전략을 활용하며 안전하게 경기한다."@ko .
+pe:std_9PE02_25 a pe:AchievementStandard ; pe:code "9체02-25" ; pe:description "스포츠의 연습과 경기 과정에서 인내심을 발휘하여 적극적으로 도전한다."@ko .
+pe:std_9PE02_26 a pe:AchievementStandard ; pe:code "9체02-26" ; pe:description "스포츠의 연습과 경기 과정에서 구성원 간에 서로 신뢰하며 팀 목표를 달성하기 위해 노력하고 경기 예절을 갖추며 정정당당하게 참여한다."@ko .
+pe:std_9PE02_27 a pe:AchievementStandard ; pe:code "9체02-27" ; pe:description "스포츠 환경에 대한 친화적 태도와 지속가능한 스포츠 환경을 만들기 위한 공동체 의식을 발휘한다."@ko .
+
+pe:std_9PE03_01 a pe:AchievementStandard ; pe:code "9체03-01" ; pe:description "스포츠 표현의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE03_02 a pe:AchievementStandard ; pe:code "9체03-02" ; pe:description "스포츠 표현의 원리를 적용하여 동작을 심미적으로 표현한다."@ko .
+pe:std_9PE03_03 a pe:AchievementStandard ; pe:code "9체03-03" ; pe:description "스포츠 표현의 특성과 원리를 반영한 작품을 창작하고 표현 요소를 고려하여 감상한다."@ko .
+pe:std_9PE03_04 a pe:AchievementStandard ; pe:code "9체03-04" ; pe:description "전통 표현의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE03_05 a pe:AchievementStandard ; pe:code "9체03-05" ; pe:description "전통 표현의 원리를 적용하여 동작을 심미적으로 표현한다."@ko .
+pe:std_9PE03_06 a pe:AchievementStandard ; pe:code "9체03-06" ; pe:description "전통 표현의 특성과 원리를 반영한 작품을 창작하고 표현 요소를 고려하여 감상한다."@ko .
+pe:std_9PE03_07 a pe:AchievementStandard ; pe:code "9체03-07" ; pe:description "현대 표현의 역사와 특성을 탐색하고 비교한다."@ko .
+pe:std_9PE03_08 a pe:AchievementStandard ; pe:code "9체03-08" ; pe:description "현대 표현의 원리를 적용하여 동작을 심미적으로 표현한다."@ko .
+pe:std_9PE03_09 a pe:AchievementStandard ; pe:code "9체03-09" ; pe:description "현대 표현의 특성과 원리를 반영한 작품을 창작하고 표현 요소를 고려하여 감상한다."@ko .
+pe:std_9PE03_10 a pe:AchievementStandard ; pe:code "9체03-10" ; pe:description "움직임을 표현하고 창작하는 과정에서 독창적이고 개방적인 태도를 갖고 표현 활동 작품을 공감하고 비평한다."@ko .
+
+#################################################################
+# Lesson Plan (Gagné 기반 지도안 1개: 중1~3 공통 템플릿)
+#################################################################
+
+pe:lessonplan_ms_pe_gagne a pe:LessonPlan ;
+  rdfs:label "중학교 체육 지도안(가네 9가지 수업사태 기반)"@ko ;
+  pe:targetGrades "중학교 1~3학년"@ko ;
+  pe:classDuration 45 ;
+  pe:learningGoal "학생이 자신의 건강·스포츠·표현 활동을 안전하게 수행하고, 자기 수준에 맞는 목표를 설정하여 실천할 수 있도록 한다."@ko ;
+
+  # 성취기준 연결(전체를 포함하되, 단원/차시에 따라 선택 활용 가능)
+  pe:hasStandard
+    pe:std_9PE01_01, pe:std_9PE01_02, pe:std_9PE01_03, pe:std_9PE01_04,
+    pe:std_9PE01_05, pe:std_9PE01_06, pe:std_9PE01_07, pe:std_9PE01_08,
+    pe:std_9PE01_09, pe:std_9PE01_10, pe:std_9PE01_11, pe:std_9PE01_12,
+    pe:std_9PE01_13, pe:std_9PE01_14,
+
+    pe:std_9PE02_01, pe:std_9PE02_02, pe:std_9PE02_03, pe:std_9PE02_04,
+    pe:std_9PE02_05, pe:std_9PE02_06, pe:std_9PE02_07, pe:std_9PE02_08,
+    pe:std_9PE02_09, pe:std_9PE02_10, pe:std_9PE02_11, pe:std_9PE02_12,
+    pe:std_9PE02_13, pe:std_9PE02_14, pe:std_9PE02_15, pe:std_9PE02_16,
+    pe:std_9PE02_17, pe:std_9PE02_18, pe:std_9PE02_19, pe:std_9PE02_20,
+    pe:std_9PE02_21, pe:std_9PE02_22, pe:std_9PE02_23, pe:std_9PE02_24,
+    pe:std_9PE02_25, pe:std_9PE02_26, pe:std_9PE02_27,
+
+    pe:std_9PE03_01, pe:std_9PE03_02, pe:std_9PE03_03, pe:std_9PE03_04,
+    pe:std_9PE03_05, pe:std_9PE03_06, pe:std_9PE03_07, pe:std_9PE03_08,
+    pe:std_9PE03_09, pe:std_9PE03_10 ;
+
+  pe:hasMaterial pe:mat_cones, pe:mat_stopwatch, pe:mat_whistle, pe:mat_rubricSheet ;
+  pe:hasAssessment pe:assess_observation, pe:assess_selfCheck ;
+  pe:hasEvent pe:event01, pe:event02, pe:event03, pe:event04, pe:event05,
+              pe:event06, pe:event07, pe:event08, pe:event09 .
+
+#################################################################
+# Materials
+#################################################################
+
+pe:mat_cones a pe:Material ;
+  rdfs:label "콘/표식"@ko ;
+  pe:description "안전 구역 설정 및 코스 구성"@ko .
+
+pe:mat_stopwatch a pe:Material ;
+  rdfs:label "스톱워치"@ko ;
+  pe:description "기록 측정, 시간 운영"@ko .
+
+pe:mat_whistle a pe:Material ;
+  rdfs:label "호루라기"@ko ;
+  pe:description "수업 신호 및 안전 통제"@ko .
+
+pe:mat_rubricSheet a pe:Material ;
+  rdfs:label "활동 루브릭/자기점검지"@ko ;
+  pe:description "수행 점검 및 성찰 기록"@ko .
+
+#################################################################
+# Assessment
+#################################################################
+
+pe:assess_observation a pe:Assessment ;
+  rdfs:label "수행 관찰 평가"@ko ;
+  pe:description "안전 준수, 참여 태도, 기술 수행, 협력 행동을 관찰로 평가"@ko .
+
+pe:assess_selfCheck a pe:Assessment ;
+  rdfs:label "자기 점검(형성평가)"@ko ;
+  pe:description "오늘 배운 내용/느낌/개선점/다음 목표를 체크리스트로 기록"@ko .
+
+#################################################################
+# Activities (예시 활동 묶음)
+#################################################################
+
+pe:act_warmupQuiz a pe:Activity ;
+  rdfs:label "흥미 유발 퀴즈+짧은 움직임"@ko ;
+  pe:description "짧은 질문(예: '부상 예방 1순위는?') + 간단한 동작 따라하기"@ko .
+
+pe:act_goalSetting a pe:Activity ;
+  rdfs:label "개인 목표 설정"@ko ;
+  pe:description "자신의 체력·기술 수준을 확인하고 오늘의 개인 목표를 1개 작성"@ko .
+
+pe:act_recallDiscussion a pe:Activity ;
+  rdfs:label "선수학습 회상 토의"@ko ;
+  pe:description "초등/이전 학년에서 해본 운동·스포츠 경험을 떠올리고 공유"@ko .
+
+pe:act_skillDemo a pe:Activity ;
+  rdfs:label "핵심 내용 제시(시범/설명)"@ko ;
+  pe:description "기술의 핵심 원리, 안전 포인트, 규칙을 교사가 제시"@ko .
+
+pe:act_stationPractice a pe:Activity ;
+  rdfs:label "스테이션 실습"@ko ;
+  pe:description "준비운동/체력/기술/표현 중 2~3개 구역을 순환하며 수행"@ko .
+
+pe:act_peerCoaching a pe:Activity ;
+  rdfs:label "짝 피드백(코칭)"@ko ;
+  pe:description "짝과 루브릭을 보며 자세/전략/표현 요소를 서로 교정"@ko .
+
+pe:act_miniGame a pe:Activity ;
+  rdfs:label "미니 게임/활동 적용"@ko ;
+  pe:description "배운 원리를 적용해 짧은 경기/기록 도전/표현 발표 진행"@ko .
+
+pe:act_reflection a pe:Activity ;
+  rdfs:label "정리운동+성찰"@ko ;
+  pe:description "정리운동 후 자기점검지 작성(오늘 성취/개선/다음 목표)"@ko .
+
+#################################################################
+# Gagné’s Nine Events (지도안 핵심)
+#################################################################
+
+pe:event01 a pe:GagneEvent ;
+  rdfs:label "1. 주의 획득(Gain Attention)"@ko ;
+  pe:eventNumber 1 ;
+  pe:timeMinutes 4 ;
+  pe:teacherAction "짧은 상황 질문/사진/영상 또는 미니 미션으로 관심을 끌고 안전의 중요성을 강조한다."@ko ;
+  pe:learnerAction "질문에 반응하고 간단 동작(예: 제자리 점프 10회)을 수행한다."@ko ;
+  pe:hasActivity pe:act_warmupQuiz .
+
+pe:event02 a pe:GagneEvent ;
+  rdfs:label "2. 목표 제시(Inform Objectives)"@ko ;
+  pe:eventNumber 2 ;
+  pe:timeMinutes 3 ;
+  pe:teacherAction "오늘 수업 목표(안전·기술·건강 실천)를 한 문장으로 제시하고 성공 기준을 안내한다."@ko ;
+  pe:learnerAction "목표를 듣고 오늘의 개인 목표를 1개 정한다."@ko ;
+  pe:hasActivity pe:act_goalSetting .
+
+pe:event03 a pe:GagneEvent ;
+  rdfs:label "3. 선수학습 회상(Stimulate Recall)"@ko ;
+  pe:eventNumber 3 ;
+  pe:timeMinutes 4 ;
+  pe:teacherAction "이전에 해본 운동 경험, 자신이 어려워했던 점을 떠올리게 질문한다."@ko ;
+  pe:learnerAction "짝/모둠으로 경험을 공유하고 오늘 적용할 점을 말한다."@ko ;
+  pe:hasActivity pe:act_recallDiscussion .
+
+pe:event04 a pe:GagneEvent ;
+  rdfs:label "4. 자극 제시(Present Stimulus)"@ko ;
+  pe:eventNumber 4 ;
+  pe:timeMinutes 7 ;
+  pe:teacherAction "핵심 개념(체력·운동 원리·기술 수행 원리)과 안전 포인트를 시범과 함께 제시한다."@ko ;
+  pe:learnerAction "시범을 관찰하고 핵심 포인트 1~2개를 기록/말로 정리한다."@ko ;
+  pe:hasActivity pe:act_skillDemo .
+
+pe:event05 a pe:GagneEvent ;
+  rdfs:label "5. 학습 안내(Provide Guidance)"@ko ;
+  pe:eventNumber 5 ;
+  pe:timeMinutes 5 ;
+  pe:teacherAction "수준별 성공 기준(쉬움/보통/도전)을 제시하고 오류를 줄이는 팁(자세·호흡·리듬)을 안내한다."@ko ;
+  pe:learnerAction "자기 수준을 선택하고 수행 계획(횟수/강도)을 정한다."@ko ;
+  pe:hasActivity pe:act_stationPractice .
+
+pe:event06 a pe:GagneEvent ;
+  rdfs:label "6. 수행 유도(Elicit Performance)"@ko ;
+  pe:eventNumber 6 ;
+  pe:timeMinutes 12 ;
+  pe:teacherAction "스테이션 활동을 운영하며 개인별 피드백을 제공하고 안전을 통제한다."@ko ;
+  pe:learnerAction "각 구역에서 운동/기술/표현 활동을 직접 수행한다."@ko ;
+  pe:hasActivity pe:act_stationPractice .
+
+pe:event07 a pe:GagneEvent ;
+  rdfs:label "7. 피드백 제공(Provide Feedback)"@ko ;
+  pe:eventNumber 7 ;
+  pe:timeMinutes 5 ;
+  pe:teacherAction "교사 관찰 피드백 + 짝 피드백 기준(루브릭)을 제공한다."@ko ;
+  pe:learnerAction "짝의 피드백을 반영하여 동작을 1회 수정 수행한다."@ko ;
+  pe:hasActivity pe:act_peerCoaching .
+
+pe:event08 a pe:GagneEvent ;
+  rdfs:label "8. 수행 평가(Assess Performance)"@ko ;
+  pe:eventNumber 8 ;
+  pe:timeMinutes 7 ;
+  pe:teacherAction "간단 적용 과제(미니게임/기록도전/표현발표)를 통해 성취 수준을 확인한다."@ko ;
+  pe:learnerAction "배운 원리를 적용해 과제를 수행하고 결과를 공유한다."@ko ;
+  pe:hasActivity pe:act_miniGame .
+
+pe:event09 a pe:GagneEvent ;
+  rdfs:label "9. 파지·전이 촉진(Enhance Retention & Transfer)"@ko ;
+  pe:eventNumber 9 ;
+  pe:timeMinutes 3 ;
+  pe:teacherAction "다음 차시/생활 적용 과제를 제시하고 개인 실천 계획을 연결한다."@ko ;
+  pe:learnerAction "정리운동 후 자기점검지에 '다음 목표 1개'를 작성한다."@ko ;
+  pe:hasActivity pe:act_reflection .

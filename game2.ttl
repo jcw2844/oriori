@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>체육 성취기준 미션 평가 게임</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#121a2b; --line:#22304f;
+      --text:#e9eefc; --muted:#a7b4d6; --accent:#7aa8ff;
+      --good:#55d18a; --warn:#ffd066; --bad:#ff6b6b;
+      --chip:#1a2540;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:linear-gradient(180deg,#070c16 0%, #0b1220 60%, #070c16 100%);
+      color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR",sans-serif;
+    }
+    header{
+      padding:20px 18px;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      position:sticky; top:0; background:rgba(11,18,32,0.9); backdrop-filter: blur(10px);
+      z-index:10;
+    }
+    header h1{
+      margin:0 0 6px 0; font-size:18px; letter-spacing: -0.2px;
+    }
+    header p{margin:0; color:var(--muted); font-size:13px}
+    main{max-width:1100px; margin:0 auto; padding:18px}
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: 1.1fr 1fr;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background:rgba(18,26,43,0.92);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;
+      padding:16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .card h2{
+      margin:0 0 12px 0;
+      font-size:15px;
+      color:var(--text);
+      display:flex; align-items:center; gap:8px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:2px 10px; border-radius:999px;
+      background:rgba(122,168,255,0.15);
+      border:1px solid rgba(122,168,255,0.25);
+      color:var(--accent); font-size:12px;
+    }
+    label{display:block; font-size:13px; color:var(--muted); margin:10px 0 6px}
+    input, select, button{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:#0e1628;
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    input::placeholder{color:#7282a8}
+    .row{display:flex; gap:10px}
+    .row > *{flex:1}
+    .hint{color:var(--muted); font-size:12px; margin-top:6px; line-height:1.35}
+    .domainBox{
+      display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;
+    }
+    .chip{
+      padding:6px 10px;
+      background:rgba(26,37,64,0.8);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+    }
+    .chip strong{color:var(--text); font-weight:600}
+    .missions{
+      display:flex; flex-direction:column; gap:10px; margin-top:8px;
+    }
+    .mission{
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(14,22,40,0.72);
+    }
+    .missionTop{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .missionTitle{
+      font-size:14px; margin:0; line-height:1.25;
+    }
+    .missionMeta{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .scoreRow{
+      display:flex; gap:8px; align-items:center; margin-top:10px;
+    }
+    .scoreRow span{
+      color:var(--muted); font-size:12px;
+      min-width:64px;
+    }
+    .scoreRow .btns{
+      display:flex; gap:6px; flex-wrap:wrap;
+    }
+    .scoreBtn{
+      width:auto;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(26,37,64,0.9);
+      color:var(--text);
+      cursor:pointer;
+      font-size:13px;
+      transition:0.12s transform ease, 0.12s opacity ease;
+    }
+    .scoreBtn:hover{transform:translateY(-1px)}
+    .scoreBtn[data-selected="true"]{
+      border-color: rgba(122,168,255,0.7);
+      box-shadow:0 0 0 3px rgba(122,168,255,0.15);
+      background:rgba(122,168,255,0.18);
+    }
+    .panel{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .panel button{
+      width:auto;
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      background:rgba(122,168,255,0.14);
+      border:1px solid rgba(122,168,255,0.35);
+    }
+    .panel button.secondary{
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.12);
+    }
+    .panel button.danger{
+      background:rgba(255,107,107,0.14);
+      border:1px solid rgba(255,107,107,0.35);
+    }
+    .resultBox{
+      margin-top:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(14,22,40,0.72);
+    }
+    .resultGrid{
+      display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;
+    }
+    @media (max-width: 600px){
+      .resultGrid{grid-template-columns:1fr}
+    }
+    .metric{
+      padding:10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(18,26,43,0.55);
+    }
+    .metric .k{color:var(--muted); font-size:12px}
+    .metric .v{font-size:18px; font-weight:700; margin-top:4px}
+    .level{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:700;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.06);
+    }
+    .level.high{color:var(--good); border-color:rgba(85,209,138,0.35); background:rgba(85,209,138,0.1)}
+    .level.mid{color:var(--warn); border-color:rgba(255,208,102,0.35); background:rgba(255,208,102,0.1)}
+    .level.low{color:var(--bad); border-color:rgba(255,107,107,0.35); background:rgba(255,107,107,0.1)}
+    table{
+      width:100%;
+      border-collapse: collapse;
+      margin-top:10px;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    th, td{
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      font-size:13px;
+      text-align:left;
+      vertical-align:top;
+    }
+    th{color:var(--muted); background:rgba(14,22,40,0.72)}
+    tr:last-child td{border-bottom:none}
+    .small{font-size:12px; color:var(--muted); margin-top:8px}
+    .footer{
+      padding:16px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      opacity:0.9;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>체육 성취기준 미션 평가 게임 <span class="badge">0~6점 → 상/중/하</span></h1>
+  <p>이름 입력 → 영역 선택 → 미션 3개 점수(0~2) → 자동 성취도 판정 → 기록 저장/CSV 내보내기</p>
+</header>
+
+<main>
+  <div class="grid">
+    <!-- 좌측: 설정/미션 -->
+    <section class="card">
+      <h2>① 학생 & 영역 선택 <span class="badge" id="groupBadge">-</span></h2>
+
+      <div class="row">
+        <div>
+          <label for="studentName">학생 이름</label>
+          <input id="studentName" type="text" placeholder="예: 김OO" />
+          <div class="hint">여러 명을 연속 평가할 때는 저장 후 이름만 바꿔도 돼요.</div>
+        </div>
+        <div>
+          <label for="domainSelect">영역 선택</label>
+          <select id="domainSelect"></select>
+          <div class="hint" id="domainHint">선택한 영역의 성취기준 범위가 표시됩니다.</div>
+        </div>
+      </div>
+
+      <div class="domainBox" id="domainInfo"></div>
+
+      <h2 style="margin-top:16px;">② 미션 수행(3개)</h2>
+      <div class="missions" id="missionList"></div>
+
+      <div class="resultBox" aria-live="polite">
+        <div class="resultGrid">
+          <div class="metric">
+            <div class="k">총점(0~6)</div>
+            <div class="v" id="totalScore">0</div>
+          </div>
+          <div class="metric">
+            <div class="k">성취도</div>
+            <div class="v" id="levelText"><span class="level low">하</span></div>
+          </div>
+          <div class="metric">
+            <div class="k">즉시 피드백</div>
+            <div class="v" style="font-size:13px; font-weight:600; line-height:1.35;" id="feedbackText">
+              점수를 선택하면 자동으로 피드백이 나와요.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <button id="saveBtn">✅ 기록 저장</button>
+          <button class="secondary" id="resetBtn">↩️ 미션 초기화</button>
+          <button class="secondary" id="copyBtn">📋 결과 복사</button>
+        </div>
+        <div class="small">※ 판정 기준: 5~6점=상 / 3~4점=중 / 0~2점=하</div>
+      </div>
+    </section>
+
+    <!-- 우측: 기록 -->
+    <section class="card">
+      <h2>③ 저장된 기록</h2>
+      <div class="hint">저장된 기록은 브라우저(이 컴퓨터)에 남아요. (localStorage 사용)</div>
+
+      <div class="panel">
+        <button class="secondary" id="exportBtn">⬇️ CSV 내보내기</button>
+        <button class="danger" id="clearBtn">🗑️ 기록 전체 삭제</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:120px;">날짜/시간</th>
+            <th style="width:90px;">이름</th>
+            <th>영역</th>
+            <th style="width:70px;">총점</th>
+            <th style="width:70px;">수준</th>
+          </tr>
+        </thead>
+        <tbody id="logBody">
+          <tr><td colspan="5" style="color:var(--muted);">아직 저장된 기록이 없어요.</td></tr>
+        </tbody>
+      </table>
+      <div class="footer">문정대 버전 · 체육 성취기준 기반 간단 평가 게임</div>
+    </section>
+  </div>
+</main>
+
+<script>
+/** =========================
+ *  데이터(8개 영역)
+ *  ========================= */
+const DOMAINS = [
+  {
+    id: "health",
+    title: "건강",
+    range: "[9체01-01~9체01-14]",
+    chips: ["체력증진", "체력관리", "운동처방", "신체·정신·사회적 건강", "안전"],
+    missions: [
+      {
+        id: "h_q",
+        type: "Quiz",
+        title: "퀴즈 미션",
+        prompt: "체력 증진·체력 관리·운동 처방의 차이를 1문장씩 말해보기(또는 카드 선택).",
+        time: 4
+      },
+      {
+        id: "h_p",
+        type: "Practice",
+        title: "실천 미션",
+        prompt: "내 수준에 맞는 순환운동 1세트(예: 스쿼트-플랭크-왕복달리기) 선택 후 안전하게 수행.",
+        time: 6
+      },
+      {
+        id: "h_r",
+        type: "Reflection",
+        title: "성찰 미션",
+        prompt: "오늘 몸 상태(호흡/피로/통증) 점검 후 다음 목표 1개 + 안전 수칙 1개 적기.",
+        time: 3
+      }
+    ]
+  },
+  {
+    id: "action",
+    title: "동작형 스포츠",
+    range: "[9체02-01~9체02-03]",
+    chips: ["기술 수행", "원리 적용", "전략", "안전"],
+    missions: [
+      {
+        id: "a_q",
+        type: "Quiz",
+        title: "규칙/특성 퀴즈",
+        prompt: "동작형 스포츠의 특징(기술 수행·동작 완성도)을 예시로 설명하기.",
+        time: 3
+      },
+      {
+        id: "a_p",
+        type: "Practice",
+        title: "기술 수행 미션",
+        prompt: "기본 기술 1개(예: 드리블/스텝/턴)를 30초간 정확하게 반복 수행.",
+        time: 5
+      },
+      {
+        id: "a_s",
+        type: "Strategy",
+        title: "전략 적용 미션",
+        prompt: "상황 카드 1장을 뽑아 '어떤 기술을 왜 쓰는지' 말하고 짧게 적용하기.",
+        time: 4
+      }
+    ]
+  },
+  {
+    id: "combat",
+    title: "투기형 스포츠",
+    range: "[9체02-07~9체02-09]",
+    chips: ["상대 존중", "안전거리", "기본 움직임", "예절"],
+    missions: [
+      {
+        id: "c_q",
+        type: "Quiz",
+        title: "안전 퀴즈",
+        prompt: "투기형 스포츠에서 중요한 안전 요소 2가지(예: 안전거리, 규칙, 상대 존중) 말하기.",
+        time: 3
+      },
+      {
+        id: "c_p",
+        type: "Practice",
+        title: "기본 움직임 미션",
+        prompt: "기본 자세/스텝(앞뒤·좌우) 30초 + 방향 전환 10회(충돌 없이).",
+        time: 5
+      },
+      {
+        id: "c_e",
+        type: "Etiquette",
+        title: "예절 미션",
+        prompt: "시작·종료 인사 + 규칙 준수 + 상대 배려 행동 2가지를 체크하며 실천하기.",
+        time: 3
+      }
+    ]
+  },
+  {
+    id: "invasion",
+    title: "영역형 스포츠",
+    range: "[9체02-10~9체02-12]",
+    chips: ["공간 만들기", "전환", "패스", "수비"],
+    missions: [
+      {
+        id: "i_q",
+        type: "Quiz",
+        title: "전술 퀴즈",
+        prompt: "공간 만들기/패스 각도/수비 전환 중 1개를 골라 쉬운 예로 설명하기.",
+        time: 3
+      },
+      {
+        id: "i_p",
+        type: "Practice",
+        title: "패스/연계 미션",
+        prompt: "2:1 패스 게임(또는 3인 릴레이)에서 정확한 패스 5회 성공하기.",
+        time: 6
+      },
+      {
+        id: "i_t",
+        type: "Tactics",
+        title: "미니전술 미션",
+        prompt: "미니경기 1분 동안 ‘공간 만들기’ 전략을 1번 이상 적용하기.",
+        time: 4
+      }
+    ]
+  },
+  {
+    id: "field",
+    title: "필드형 스포츠",
+    range: "[9체02-13~9체02-15]",
+    chips: ["기록/진행", "공간", "기능 수행", "상황 판단"],
+    missions: [
+      {
+        id: "f_q",
+        type: "Quiz",
+        title: "특성 퀴즈",
+        prompt: "필드형 스포츠의 흐름(공간/이동/진행 방식)을 한 문장으로 말하기.",
+        time: 3
+      },
+      {
+        id: "f_p",
+        type: "Practice",
+        title: "기능 미션",
+        prompt: "기본 타격/패스/캐치 중 1개를 선택해 5회 정확히 성공하기.",
+        time: 6
+      },
+      {
+        id: "f_s",
+        type: "Strategy",
+        title: "상황판단 미션",
+        prompt: "상황 카드에서 최선의 선택(안전/성공확률 고려)을 말하기.",
+        time: 4
+      }
+    ]
+  },
+  {
+    id: "net",
+    title: "네트형 스포츠",
+    range: "[9체02-16~9체02-18]",
+    chips: ["서브", "랠리", "공간", "전략"],
+    missions: [
+      {
+        id: "n_q",
+        type: "Quiz",
+        title: "규칙 퀴즈",
+        prompt: "득점 조건 1개 + 반칙 1개를 말해보기.",
+        time: 3
+      },
+      {
+        id: "n_p",
+        type: "Practice",
+        title: "랠리 미션",
+        prompt: "짝과 랠리 10회 이어가기(정확·안전 중심, 실패해도 OK).",
+        time: 6
+      },
+      {
+        id: "n_g",
+        type: "MiniGame",
+        title: "미니게임 미션",
+        prompt: "3점 미니게임에서 서브-리턴-마무리 전략을 1번 이상 사용하기.",
+        time: 4
+      }
+    ]
+  },
+  {
+    id: "life",
+    title: "생활/자연환경형+태도",
+    range: "[9체02-19~9체02-27]",
+    chips: ["안전", "협력", "예절", "지속가능", "도전"],
+    missions: [
+      {
+        id: "l_q",
+        type: "Quiz",
+        title: "안전 퀴즈",
+        prompt: "생활/자연환경형 스포츠 안전수칙 2가지(날씨/장비/장소 등) 말하기.",
+        time: 3
+      },
+      {
+        id: "l_p",
+        type: "Practice",
+        title: "생활스포츠 실천",
+        prompt: "걷기/줄넘기/계단 오르기 등 가능한 생활스포츠 1개를 3분 실천하기.",
+        time: 5
+      },
+      {
+        id: "l_a",
+        type: "Attitude",
+        title: "팀워크·예절·환경",
+        prompt: "협력 1회 이상 + 경기 예절 1회 이상 + 환경 배려 행동 1개 실천하기.",
+        time: 4
+      }
+    ]
+  },
+  {
+    id: "expr",
+    title: "스포츠 표현",
+    range: "[9체03-01~9체03-10]",
+    chips: ["리듬", "공간", "강약", "동선", "감상·비평"],
+    missions: [
+      {
+        id: "e_q",
+        type: "Quiz",
+        title: "표현 요소 퀴즈",
+        prompt: "표현 활동의 중요한 요소 2가지(리듬/공간/강약/표정 등) 말하기.",
+        time: 3
+      },
+      {
+        id: "e_c",
+        type: "Create",
+        title: "창작 미션",
+        prompt: "8카운트 동작 1개 창작(시작-전개-마무리 포함) → 모둠과 연결하기.",
+        time: 7
+      },
+      {
+        id: "e_r",
+        type: "Reflect",
+        title: "감상·비평 미션",
+        prompt: "다른 모둠을 보고 좋은 점 1개 + 개선 제안 1개를 존중 표현으로 말하기.",
+        time: 3
+      }
+    ]
+  }
+];
+
+/** =========================
+ *  유틸
+ *  ========================= */
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+function nowKST() {
+  // 로컬 시간 그대로 표시(학교 PC 기준)
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function levelFromScore(total){
+  if (total >= 5) return {text:"상", cls:"high", msg:"개념 이해와 실천이 안정적이에요. 다음은 '전략/자기주도성'을 더 강화해봐요!"};
+  if (total >= 3) return {text:"중", cls:"mid", msg:"기본은 OK! 한 가지 핵심 포인트를 정해서 반복 연습하면 금방 올라가요."};
+  return {text:"하", cls:"low", msg:"괜찮아요. 쉬운 수준부터 안전하게 성공 경험을 만들어봅시다."};
+}
+
+function safeText(s){
+  return String(s ?? "").replace(/[<>&"]/g, (ch)=>({
+    "<":"&lt;", ">":"&gt;", "&":"&amp;", '"':"&quot;"
+  }[ch]));
+}
+
+/** =========================
+ *  상태
+ *  ========================= */
+let currentDomain = DOMAINS[0];
+let missionScores = {}; // missionId -> 0/1/2
+
+/** =========================
+ *  렌더
+ *  ========================= */
+function initDomainSelect(){
+  const sel = $("#domainSelect");
+  sel.innerHTML = DOMAINS.map(d => `<option value="${d.id}">${safeText(d.title)}</option>`).join("");
+  sel.addEventListener("change", () => {
+    const id = sel.value;
+    currentDomain = DOMAINS.find(d => d.id === id) || DOMAINS[0];
+    resetMissions(false);
+    renderDomainInfo();
+    renderMissions();
+    updateResult();
+  });
+}
+
+function renderDomainInfo(){
+  $("#groupBadge").textContent = currentDomain.range;
+  $("#domainHint").textContent = `선택된 영역: ${currentDomain.title} · 성취기준 범위: ${currentDomain.range}`;
+  const box = $("#domainInfo");
+  box.innerHTML = currentDomain.chips.map(c => `<div class="chip"><strong>#</strong> ${safeText(c)}</div>`).join("");
+}
+
+function renderMissions(){
+  const list = $("#missionList");
+  list.innerHTML = "";
+
+  currentDomain.missions.forEach((m, idx) => {
+    const score = missionScores[m.id] ?? null;
+
+    const wrap = document.createElement("div");
+    wrap.className = "mission";
+    wrap.innerHTML = `
+      <div class="missionTop">
+        <div>
+          <p class="missionTitle">미션 ${idx+1}. ${safeText(m.title)} <span class="badge">${safeText(m.type)}</span></p>
+          <div class="missionMeta">⏱ ${m.time}분 · ${safeText(m.prompt)}</div>
+        </div>
+        <div class="badge" title="0~2점 선택">점수</div>
+      </div>
+
+      <div class="scoreRow">
+        <span>선택</span>
+        <div class="btns" data-mission="${m.id}">
+          ${[0,1,2].map(v => `
+            <button class="scoreBtn" type="button" data-score="${v}" data-selected="${score===v}">
+              ${v}점
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+    list.appendChild(wrap);
+  });
+
+  // 버튼 이벤트 바인딩
+  $$(".btns").forEach(btnGroup => {
+    btnGroup.addEventListener("click", (e) => {
+      const btn = e.target.closest(".scoreBtn");
+      if (!btn) return;
+
+      const missionId = btnGroup.dataset.mission;
+      const score = Number(btn.dataset.score);
+      missionScores[missionId] = score;
+
+      // 토글 UI
+      Array.from(btnGroup.querySelectorAll(".scoreBtn")).forEach(b => b.dataset.selected = "false");
+      btn.dataset.selected = "true";
+
+      updateResult();
+    });
+  });
+}
+
+function calcTotal(){
+  let total = 0;
+  currentDomain.missions.forEach(m => {
+    const s = missionScores[m.id];
+    total += (typeof s === "number") ? s : 0;
+  });
+  return total;
+}
+
+function updateResult(){
+  const total = calcTotal();
+  $("#totalScore").textContent = total;
+
+  const lvl = levelFromScore(total);
+  $("#levelText").innerHTML = `<span class="level ${lvl.cls}">${lvl.text}</span>`;
+  $("#feedbackText").textContent = lvl.msg;
+}
+
+function resetMissions(clearDomainSelect = true){
+  missionScores = {};
+  if (clearDomainSelect){
+    currentDomain = DOMAINS[0];
+    $("#domainSelect").value = currentDomain.id;
+    renderDomainInfo();
+  }
+  renderMissions();
+  updateResult();
+}
+
+/** =========================
+ *  저장/기록
+ *  ========================= */
+const STORAGE_KEY = "pe_game_logs_v1";
+
+function loadLogs(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  }catch{
+    return [];
+  }
+}
+
+function saveLogs(arr){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+function renderLogs(){
+  const logs = loadLogs();
+  const body = $("#logBody");
+  if (!logs.length){
+    body.innerHTML = `<tr><td colspan="5" style="color:var(--muted);">아직 저장된 기록이 없어요.</td></tr>`;
+    return;
+  }
+
+  body.innerHTML = logs.slice().reverse().map(row => `
+    <tr>
+      <td>${safeText(row.time)}</td>
+      <td>${safeText(row.name)}</td>
+      <td>${safeText(row.domainTitle)} <span style="color:var(--muted); font-size:12px;">${safeText(row.range)}</span></td>
+      <td><b>${row.total}</b></td>
+      <td>${safeText(row.level)}</td>
+    </tr>
+  `).join("");
+}
+
+function buildResultText(){
+  const name = $("#studentName").value.trim() || "(이름 없음)";
+  const total = calcTotal();
+  const lvl = levelFromScore(total).text;
+
+  const perMission = currentDomain.missions.map(m => {
+    const s = missionScores[m.id];
+    const val = (typeof s === "number") ? s : 0;
+    return `- ${m.title}(${m.type}): ${val}점`;
+  }).join("\n");
+
+  return `체육 성취기준 미션 평가 결과\n` +
+         `이름: ${name}\n` +
+         `영역: ${currentDomain.title} ${currentDomain.range}\n` +
+         `총점: ${total}/6점\n` +
+         `수준: ${lvl}\n\n` +
+         `미션별 점수\n${perMission}`;
+}
+
+function onSave(){
+  const name = $("#studentName").value.trim();
+  if (!name){
+    alert("학생 이름을 입력해 주세요!");
+    $("#studentName").focus();
+    return;
+  }
+
+  const total = calcTotal();
+  const lvl = levelFromScore(total).text;
+
+  const logRow = {
+    time: nowKST(),
+    name,
+    domainId: currentDomain.id,
+    domainTitle: currentDomain.title,
+    range: currentDomain.range,
+    total,
+    level: lvl,
+    m1: missionScores[currentDomain.missions[0].id] ?? 0,
+    m2: missionScores[currentDomain.missions[1].id] ?? 0,
+    m3: missionScores[currentDomain.missions[2].id] ?? 0
+  };
+
+  const logs = loadLogs();
+  logs.push(logRow);
+  saveLogs(logs);
+  renderLogs();
+
+  alert("저장 완료! 다음 학생 평가로 넘어가도 됩니다 😊");
+}
+
+function onCopy(){
+  const text = buildResultText();
+  navigator.clipboard?.writeText(text)
+    .then(()=>alert("클립보드에 복사했어요!"))
+    .catch(()=>{
+      // fallback
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      alert("클립보드에 복사했어요!");
+    });
+}
+
+function exportCSV(){
+  const logs = loadLogs();
+  if (!logs.length){
+    alert("내보낼 기록이 없어요!");
+    return;
+  }
+
+  const headers = ["time","name","domainTitle","range","total","level","m1","m2","m3"];
+  const rows = logs.map(r => headers.map(h => {
+    const val = (r[h] ?? "");
+    // CSV escape
+    const s = String(val).replace(/"/g, '""');
+    return `"${s}"`;
+  }).join(","));
+
+  const csv = [headers.join(","), ...rows].join("\n");
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `PE_Game_Logs_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function clearLogs(){
+  if (!confirm("정말 기록을 모두 삭제할까요? (되돌릴 수 없음)")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  renderLogs();
+}
+
+/** =========================
+ *  초기화
+ *  ========================= */
+function init(){
+  initDomainSelect();
+  renderDomainInfo();
+  renderMissions();
+  updateResult();
+  renderLogs();
+
+  $("#saveBtn").addEventListener("click", onSave);
+  $("#resetBtn").addEventListener("click", () => resetMissions(false));
+  $("#copyBtn").addEventListener("click", onCopy);
+
+  $("#exportBtn").addEventListener("click", exportCSV);
+  $("#clearBtn").addEventListener("click", clearLogs);
+}
+
+init();
+</script>
+</body>
+</html>

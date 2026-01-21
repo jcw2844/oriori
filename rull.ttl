@@ -1,0 +1,87 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix pe:   <http://example.org/pe/orientation#> .
+
+#################################################################
+# Classes
+#################################################################
+
+pe:PEOrientation a rdfs:Class ;
+  rdfs:label "체육 수업 오리엔테이션"@ko .
+
+pe:ClassRule a rdfs:Class ;
+  rdfs:label "수업 규칙"@ko .
+
+#################################################################
+# Properties
+#################################################################
+
+pe:hasRule a rdf:Property ;
+  rdfs:label "규칙 포함"@ko ;
+  rdfs:domain pe:PEOrientation ;
+  rdfs:range pe:ClassRule .
+
+pe:ruleNumber a rdf:Property ;
+  rdfs:label "규칙 번호"@ko ;
+  rdfs:domain pe:ClassRule ;
+  rdfs:range xsd:integer .
+
+pe:ruleText a rdf:Property ;
+  rdfs:label "규칙 내용"@ko ;
+  rdfs:domain pe:ClassRule ;
+  rdfs:range xsd:string .
+
+#################################################################
+# Instance: Orientation
+#################################################################
+
+pe:orientation2026 a pe:PEOrientation ;
+  rdfs:label "체육 수업 첫 시간 오리엔테이션"@ko ;
+  pe:hasRule pe:rule01, pe:rule02, pe:rule03, pe:rule04, pe:rule05,
+             pe:rule06, pe:rule07, pe:rule08, pe:rule09, pe:rule10 .
+
+#################################################################
+# Rules (10)
+#################################################################
+
+pe:rule01 a pe:ClassRule ;
+  pe:ruleNumber 1 ;
+  pe:ruleText "수업 시작 전 3분 전까지 준비 완료한다. (체육복, 운동화, 물, 개인 물품)"@ko .
+
+pe:rule02 a pe:ClassRule ;
+  pe:ruleNumber 2 ;
+  pe:ruleText "준비운동은 반드시 참여한다. (부상 예방이 최우선!)"@ko .
+
+pe:rule03 a pe:ClassRule ;
+  pe:ruleNumber 3 ;
+  pe:ruleText "안전 수칙을 지키고 위험 행동은 하지 않는다. (밀기/장난/과격한 행동 금지)"@ko .
+
+pe:rule04 a pe:ClassRule ;
+  pe:ruleNumber 4 ;
+  pe:ruleText "선생님의 신호(휘슬/손짓/구령)를 즉시 따른다."@ko .
+
+pe:rule05 a pe:ClassRule ;
+  pe:ruleNumber 5 ;
+  pe:ruleText "기구와 시설을 소중히 사용하고 사용 후 제자리에 둔다."@ko .
+
+pe:rule06 a pe:ClassRule ;
+  pe:ruleNumber 6 ;
+  pe:ruleText "친구를 존중하며 비난·놀림·욕설은 하지 않는다."@ko .
+
+pe:rule07 a pe:ClassRule ;
+  pe:ruleNumber 7 ;
+  pe:ruleText "팀 활동에서는 협력하며 규칙을 지키고 정정당당하게 경기한다."@ko .
+
+pe:rule08 a pe:ClassRule ;
+  pe:ruleNumber 8 ;
+  pe:ruleText "수업 중 휴대폰은 사용하지 않는다. (필요 시 교사 안내에 따름)"@ko .
+
+pe:rule09 a pe:ClassRule ;
+  pe:ruleNumber 9 ;
+  pe:ruleText "몸이 아프거나 다치면 즉시 교사에게 알린다."@ko .
+
+pe:rule10 a pe:ClassRule ;
+  pe:ruleNumber 10 ;
+  pe:ruleText "정리운동과 마무리 정돈까지가 수업이다. (끝까지 참여)"@ko .

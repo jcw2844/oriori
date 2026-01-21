@@ -1,0 +1,465 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix pe:   <http://example.org/pe/game#> .
+
+#################################################################
+# Classes
+#################################################################
+
+pe:Game a rdfs:Class ; rdfs:label "평가 게임"@ko .
+pe:Domain a rdfs:Class ; rdfs:label "영역(성취기준 묶음)"@ko .
+pe:Mission a rdfs:Class ; rdfs:label "미션(평가 과제)"@ko .
+pe:StandardGroup a rdfs:Class ; rdfs:label "성취기준 범위"@ko .
+pe:ScoringRule a rdfs:Class ; rdfs:label "채점 규칙"@ko .
+pe:AchievementLevel a rdfs:Class ; rdfs:label "성취도 수준"@ko .
+
+#################################################################
+# Properties
+#################################################################
+
+pe:hasDomain a rdf:Property ;
+  rdfs:label "영역 포함"@ko ;
+  rdfs:domain pe:Game ;
+  rdfs:range pe:Domain .
+
+pe:hasMission a rdf:Property ;
+  rdfs:label "미션 포함"@ko ;
+  rdfs:domain pe:Domain ;
+  rdfs:range pe:Mission .
+
+pe:missionType a rdf:Property ;
+  rdfs:label "미션 유형"@ko ;
+  rdfs:domain pe:Mission ;
+  rdfs:range xsd:string .
+
+pe:prompt a rdf:Property ;
+  rdfs:label "미션 안내문"@ko ;
+  rdfs:domain pe:Mission ;
+  rdfs:range xsd:string .
+
+pe:timeMinutes a rdf:Property ;
+  rdfs:label "권장 시간(분)"@ko ;
+  rdfs:domain pe:Mission ;
+  rdfs:range xsd:integer .
+
+pe:scoreMin a rdf:Property ;
+  rdfs:label "최소점수"@ko ;
+  rdfs:domain pe:ScoringRule ;
+  rdfs:range xsd:integer .
+
+pe:scoreMax a rdf:Property ;
+  rdfs:label "최대점수"@ko ;
+  rdfs:domain pe:ScoringRule ;
+  rdfs:range xsd:integer .
+
+pe:scoringGuide a rdf:Property ;
+  rdfs:label "채점 기준"@ko ;
+  rdfs:domain pe:ScoringRule ;
+  rdfs:range xsd:string .
+
+pe:hasScoring a rdf:Property ;
+  rdfs:label "채점 규칙 연결"@ko ;
+  rdfs:domain pe:Mission ;
+  rdfs:range pe:ScoringRule .
+
+pe:hasStandardGroup a rdf:Property ;
+  rdfs:label "성취기준 범위 연결"@ko ;
+  rdfs:domain pe:Domain ;
+  rdfs:range pe:StandardGroup .
+
+pe:groupLabel a rdf:Property ;
+  rdfs:label "범위 이름"@ko ;
+  rdfs:domain pe:StandardGroup ;
+  rdfs:range xsd:string .
+
+pe:codeStart a rdf:Property ;
+  rdfs:label "시작 코드"@ko ;
+  rdfs:domain pe:StandardGroup ;
+  rdfs:range xsd:string .
+
+pe:codeEnd a rdf:Property ;
+  rdfs:label "끝 코드"@ko ;
+  rdfs:domain pe:StandardGroup ;
+  rdfs:range xsd:string .
+
+pe:alignsTo a rdf:Property ;
+  rdfs:label "관련 성취기준 범위"@ko ;
+  rdfs:domain pe:Mission ;
+  rdfs:range pe:StandardGroup .
+
+pe:domainTotalScore a rdf:Property ;
+  rdfs:label "영역 총점"@ko ;
+  rdfs:domain pe:Domain ;
+  rdfs:range xsd:integer .
+
+pe:levelRule a rdf:Property ;
+  rdfs:label "성취도 판정 기준"@ko ;
+  rdfs:domain pe:AchievementLevel ;
+  rdfs:range xsd:string .
+
+pe:hasAchievementLevel a rdf:Property ;
+  rdfs:label "성취도 수준 포함"@ko ;
+  rdfs:domain pe:Game ;
+  rdfs:range pe:AchievementLevel .
+
+#################################################################
+# Game (전체)
+#################################################################
+
+pe:PE_Achievement_Game a pe:Game ;
+  rdfs:label "중학교 체육 성취기준 평가 게임(미션형)"@ko ;
+  pe:hasDomain
+    pe:Domain_Health,
+    pe:Domain_ActionSports,
+    pe:Domain_CombatSports,
+    pe:Domain_InvasionSports,
+    pe:Domain_FieldSports,
+    pe:Domain_NetSports,
+    pe:Domain_LifeNatureSports,
+    pe:Domain_Expression ;
+  pe:hasAchievementLevel pe:Level_High, pe:Level_Mid, pe:Level_Low .
+
+#################################################################
+# Achievement Levels (영역당 총점 6점 기준)
+#################################################################
+
+pe:Level_High a pe:AchievementLevel ;
+  rdfs:label "상"@ko ;
+  pe:levelRule "영역 점수 5~6점: 개념 이해 + 실천 정확 + 태도 우수"@ko .
+
+pe:Level_Mid a pe:AchievementLevel ;
+  rdfs:label "중"@ko ;
+  pe:levelRule "영역 점수 3~4점: 기본 이해/실천 가능, 일부 보완 필요"@ko .
+
+pe:Level_Low a pe:AchievementLevel ;
+  rdfs:label "하"@ko ;
+  pe:levelRule "영역 점수 0~2점: 이해·실천 모두 어려움, 단계적 지도 필요"@ko .
+
+#################################################################
+# Standard Groups (너가 준 8개 범위)
+#################################################################
+
+pe:SG_Health a pe:StandardGroup ;
+  pe:groupLabel "[9체01-01~9체01-14] 건강"@ko ;
+  pe:codeStart "9체01-01" ;
+  pe:codeEnd "9체01-14" .
+
+pe:SG_ActionSports a pe:StandardGroup ;
+  pe:groupLabel "[9체02-01~9체02-03] 동작형 스포츠"@ko ;
+  pe:codeStart "9체02-01" ;
+  pe:codeEnd "9체02-03" .
+
+pe:SG_CombatSports a pe:StandardGroup ;
+  pe:groupLabel "[9체02-07~9체02-09] 투기형 스포츠"@ko ;
+  pe:codeStart "9체02-07" ;
+  pe:codeEnd "9체02-09" .
+
+pe:SG_InvasionSports a pe:StandardGroup ;
+  pe:groupLabel "[9체02-10~9체02-12] 영역형 스포츠"@ko ;
+  pe:codeStart "9체02-10" ;
+  pe:codeEnd "9체02-12" .
+
+pe:SG_FieldSports a pe:StandardGroup ;
+  pe:groupLabel "[9체02-13~9체02-15] 필드형 스포츠"@ko ;
+  pe:codeStart "9체02-13" ;
+  pe:codeEnd "9체02-15" .
+
+pe:SG_NetSports a pe:StandardGroup ;
+  pe:groupLabel "[9체02-16~9체02-18] 네트형 스포츠"@ko ;
+  pe:codeStart "9체02-16" ;
+  pe:codeEnd "9체02-18" .
+
+pe:SG_LifeNatureSports a pe:StandardGroup ;
+  pe:groupLabel "[9체02-19~9체02-27] 생활/자연환경형 스포츠+태도"@ko ;
+  pe:codeStart "9체02-19" ;
+  pe:codeEnd "9체02-27" .
+
+pe:SG_Expression a pe:StandardGroup ;
+  pe:groupLabel "[9체03-01~9체03-10] 스포츠 표현"@ko ;
+  pe:codeStart "9체03-01" ;
+  pe:codeEnd "9체03-10" .
+
+#################################################################
+# Scoring Rule (공통: 0~2점)
+#################################################################
+
+pe:Score_0to2 a pe:ScoringRule ;
+  rdfs:label "0~2점 공통 채점"@ko ;
+  pe:scoreMin 0 ;
+  pe:scoreMax 2 ;
+  pe:scoringGuide
+    "2점=정확·안전·적극(설명/수행/태도 모두 충족), 1점=부분 성공(기본 수행), 0점=미수행 또는 위험/규칙 위반"@ko .
+
+#################################################################
+# Domain 1: 건강(9체01)
+#################################################################
+
+pe:Domain_Health a pe:Domain ;
+  rdfs:label "영역1 건강 미션"@ko ;
+  pe:hasStandardGroup pe:SG_Health ;
+  pe:domainTotalScore 6 ;
+  pe:hasMission pe:M1_H_Q, pe:M2_H_P, pe:M3_H_R .
+
+pe:M1_H_Q a pe:Mission ;
+  rdfs:label "건강 퀴즈 미션"@ko ;
+  pe:missionType "Quiz" ;
+  pe:prompt "체력 증진/체력 관리/운동 처방의 차이를 1문장씩 말해보기(또는 카드 선택)"@ko ;
+  pe:timeMinutes 4 ;
+  pe:alignsTo pe:SG_Health ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M2_H_P a pe:Mission ;
+  rdfs:label "건강 실천 미션"@ko ;
+  pe:missionType "Practice" ;
+  pe:prompt "내 체력 수준에 맞게 3종 순환운동(예: 스쿼트-플랭크-왕복달리기) 강도 선택 후 1세트 수행"@ko ;
+  pe:timeMinutes 6 ;
+  pe:alignsTo pe:SG_Health ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M3_H_R a pe:Mission ;
+  rdfs:label "건강 성찰 미션"@ko ;
+  pe:missionType "Reflection" ;
+  pe:prompt "오늘 내 몸 상태를 진단하고(피로/호흡/근육), 다음 시간 목표 1개와 안전 수칙 1개를 적기"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_Health ;
+  pe:hasScoring pe:Score_0to2 .
+
+#################################################################
+# Domain 2: 동작형 스포츠(9체02-01~03)
+#################################################################
+
+pe:Domain_ActionSports a pe:Domain ;
+  rdfs:label "영역2 동작형 스포츠 미션"@ko ;
+  pe:hasStandardGroup pe:SG_ActionSports ;
+  pe:domainTotalScore 6 ;
+  pe:hasMission pe:M1_A_Q, pe:M2_A_P, pe:M3_A_S .
+
+pe:M1_A_Q a pe:Mission ;
+  rdfs:label "동작형 스포츠 규칙 퀴즈"@ko ;
+  pe:missionType "Quiz" ;
+  pe:prompt "동작형 스포츠의 특징(정확한 기술 수행/동작 완성도)을 예시로 설명하기"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_ActionSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M2_A_P a pe:Mission ;
+  rdfs:label "동작형 스포츠 기술 미션"@ko ;
+  pe:missionType "Practice" ;
+  pe:prompt "기본 기술 1개(예: 드리블/스텝/턴)를 30초 동안 정확히 반복 수행(실패해도 안전 유지)"@ko ;
+  pe:timeMinutes 5 ;
+  pe:alignsTo pe:SG_ActionSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M3_A_S a pe:Mission ;
+  rdfs:label "동작형 스포츠 전략 미션"@ko ;
+  pe:missionType "Strategy" ;
+  pe:prompt "상황 카드 1장을 뽑아 '어떤 기술을 왜 쓰는지' 말하고 미니 적용하기"@ko ;
+  pe:timeMinutes 4 ;
+  pe:alignsTo pe:SG_ActionSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+#################################################################
+# Domain 3: 투기형 스포츠(9체02-07~09)
+#################################################################
+
+pe:Domain_CombatSports a pe:Domain ;
+  rdfs:label "영역3 투기형 스포츠 미션"@ko ;
+  pe:hasStandardGroup pe:SG_CombatSports ;
+  pe:domainTotalScore 6 ;
+  pe:hasMission pe:M1_C_Q, pe:M2_C_P, pe:M3_C_E .
+
+pe:M1_C_Q a pe:Mission ;
+  rdfs:label "투기형 안전 퀴즈"@ko ;
+  pe:missionType "Quiz" ;
+  pe:prompt "투기형 스포츠에서 가장 중요한 것 2가지를 말해보기(예: 안전거리/상대 존중/규칙)"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_CombatSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M2_C_P a pe:Mission ;
+  rdfs:label "투기형 기본 움직임 미션"@ko ;
+  pe:missionType "Practice" ;
+  pe:prompt "기본 자세/스텝(앞뒤-좌우) 30초 + 방향 전환 10회(충돌 없이)"@ko ;
+  pe:timeMinutes 5 ;
+  pe:alignsTo pe:SG_CombatSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M3_C_E a pe:Mission ;
+  rdfs:label "투기형 예절 미션"@ko ;
+  pe:missionType "Etiquette" ;
+  pe:prompt "시작·종료 인사, 규칙 준수, 상대 배려 행동 2가지를 실천 체크하기"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_CombatSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+#################################################################
+# Domain 4: 영역형 스포츠(9체02-10~12)
+#################################################################
+
+pe:Domain_InvasionSports a pe:Domain ;
+  rdfs:label "영역4 영역형 스포츠 미션"@ko ;
+  pe:hasStandardGroup pe:SG_InvasionSports ;
+  pe:domainTotalScore 6 ;
+  pe:hasMission pe:M1_I_Q, pe:M2_I_P, pe:M3_I_T .
+
+pe:M1_I_Q a pe:Mission ;
+  rdfs:label "영역형 전술 퀴즈"@ko ;
+  pe:missionType "Quiz" ;
+  pe:prompt "공간 만들기/패스 각도/수비 전환 중 1개를 골라 쉬운 예로 설명"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_InvasionSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M2_I_P a pe:Mission ;
+  rdfs:label "영역형 기술 미션"@ko ;
+  pe:missionType "Practice" ;
+  pe:prompt "2:1 패스 게임(또는 3인 패스 릴레이)에서 정확한 패스 5회 성공"@ko ;
+  pe:timeMinutes 6 ;
+  pe:alignsTo pe:SG_InvasionSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M3_I_T a pe:Mission ;
+  rdfs:label "영역형 미니전술 미션"@ko ;
+  pe:missionType "Tactics" ;
+  pe:prompt "미니경기 1분 동안 ‘공간 만들기’ 전략을 1번 이상 적용하기"@ko ;
+  pe:timeMinutes 4 ;
+  pe:alignsTo pe:SG_InvasionSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+#################################################################
+# Domain 5: 필드형 스포츠(9체02-13~15)
+#################################################################
+
+pe:Domain_FieldSports a pe:Domain ;
+  rdfs:label "영역5 필드형 스포츠 미션"@ko ;
+  pe:hasStandardGroup pe:SG_FieldSports ;
+  pe:domainTotalScore 6 ;
+  pe:hasMission pe:M1_F_Q, pe:M2_F_P, pe:M3_F_S .
+
+pe:M1_F_Q a pe:Mission ;
+  rdfs:label "필드형 특징 퀴즈"@ko ;
+  pe:missionType "Quiz" ;
+  pe:prompt "필드형 스포츠의 흐름(공간/이동/진행 방식)을 한 문장으로 말하기"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_FieldSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M2_F_P a pe:Mission ;
+  rdfs:label "필드형 기능 미션"@ko ;
+  pe:missionType "Practice" ;
+  pe:prompt "기본 타격/패스/캐치 중 1개를 선택해 5회 정확히 성공하기"@ko ;
+  pe:timeMinutes 6 ;
+  pe:alignsTo pe:SG_FieldSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M3_F_S a pe:Mission ;
+  rdfs:label "필드형 상황판단 미션"@ko ;
+  pe:missionType "Strategy" ;
+  pe:prompt "상황 카드(공이 멀리 갔을 때/상대가 가까울 때 등)에서 최선의 선택 말하기"@ko ;
+  pe:timeMinutes 4 ;
+  pe:alignsTo pe:SG_FieldSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+#################################################################
+# Domain 6: 네트형 스포츠(9체02-16~18)
+#################################################################
+
+pe:Domain_NetSports a pe:Domain ;
+  rdfs:label "영역6 네트형 스포츠 미션"@ko ;
+  pe:hasStandardGroup pe:SG_NetSports ;
+  pe:domainTotalScore 6 ;
+  pe:hasMission pe:M1_N_Q, pe:M2_N_P, pe:M3_N_G .
+
+pe:M1_N_Q a pe:Mission ;
+  rdfs:label "네트형 규칙 퀴즈"@ko ;
+  pe:missionType "Quiz" ;
+  pe:prompt "네트형 스포츠에서 득점이 나는 조건 1개 + 반칙 1개를 말하기"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_NetSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M2_N_P a pe:Mission ;
+  rdfs:label "네트형 랠리 미션"@ko ;
+  pe:missionType "Practice" ;
+  pe:prompt "짝과 랠리 10회 이어가기(공이 느려도 OK, 정확·안전 중심)"@ko ;
+  pe:timeMinutes 6 ;
+  pe:alignsTo pe:SG_NetSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M3_N_G a pe:Mission ;
+  rdfs:label "네트형 미니게임 미션"@ko ;
+  pe:missionType "MiniGame" ;
+  pe:prompt "3점 미니게임에서 서브-리턴-마무리 전략을 1번 이상 사용하기"@ko ;
+  pe:timeMinutes 4 ;
+  pe:alignsTo pe:SG_NetSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+#################################################################
+# Domain 7: 생활/자연환경형+태도(9체02-19~27)
+#################################################################
+
+pe:Domain_LifeNatureSports a pe:Domain ;
+  rdfs:label "영역7 생활/자연환경형 스포츠 미션"@ko ;
+  pe:hasStandardGroup pe:SG_LifeNatureSports ;
+  pe:domainTotalScore 6 ;
+  pe:hasMission pe:M1_L_Q, pe:M2_L_P, pe:M3_L_A .
+
+pe:M1_L_Q a pe:Mission ;
+  rdfs:label "생활/자연형 안전 퀴즈"@ko ;
+  pe:missionType "Quiz" ;
+  pe:prompt "생활/자연환경형 스포츠에서 필요한 안전수칙 2가지를 말하기(날씨/장비/장소)"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_LifeNatureSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M2_L_P a pe:Mission ;
+  rdfs:label "생활스포츠 실천 미션"@ko ;
+  pe:missionType "Practice" ;
+  pe:prompt "자신이 가능한 생활스포츠(걷기/줄넘기/계단오르기 등) 1개를 선택해 3분 실천"@ko ;
+  pe:timeMinutes 5 ;
+  pe:alignsTo pe:SG_LifeNatureSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M3_L_A a pe:Mission ;
+  rdfs:label "팀워크·예절·지속가능 미션"@ko ;
+  pe:missionType "Attitude" ;
+  pe:prompt "팀 목표 달성을 위해 협력 1회 이상 + 경기 예절 1회 이상 + 환경 배려 행동 1개 실천하기"@ko ;
+  pe:timeMinutes 4 ;
+  pe:alignsTo pe:SG_LifeNatureSports ;
+  pe:hasScoring pe:Score_0to2 .
+
+#################################################################
+# Domain 8: 스포츠 표현(9체03-01~10)
+#################################################################
+
+pe:Domain_Expression a pe:Domain ;
+  rdfs:label "영역8 스포츠 표현 미션"@ko ;
+  pe:hasStandardGroup pe:SG_Expression ;
+  pe:domainTotalScore 6 ;
+  pe:hasMission pe:M1_E_Q, pe:M2_E_C, pe:M3_E_R .
+
+pe:M1_E_Q a pe:Mission ;
+  rdfs:label "표현 원리 퀴즈"@ko ;
+  pe:missionType "Quiz" ;
+  pe:prompt "표현 활동에서 중요한 요소 2가지(리듬/공간/강약/동선/표정 등) 말하기"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_Expression ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M2_E_C a pe:Mission ;
+  rdfs:label "표현 창작 미션"@ko ;
+  pe:missionType "Create" ;
+  pe:prompt "8카운트 동작 1개를 창작해 모둠과 연결(시작-전개-마무리 동작 포함)"@ko ;
+  pe:timeMinutes 7 ;
+  pe:alignsTo pe:SG_Expression ;
+  pe:hasScoring pe:Score_0to2 .
+
+pe:M3_E_R a pe:Mission ;
+  rdfs:label "표현 감상·비평 미션"@ko ;
+  pe:missionType "Reflect" ;
+  pe:prompt "다른 모둠 작품을 보고 좋은 점 1개 + 개선 제안 1개를 존중 표현으로 말하기"@ko ;
+  pe:timeMinutes 3 ;
+  pe:alignsTo pe:SG_Expression ;
+  pe:hasScoring pe:Score_0to2 .

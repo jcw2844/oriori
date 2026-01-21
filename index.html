@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중학교 체육 수업 오리엔테이션</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo" onclick="showView('hero')">⚽ PE Orientation</div>
+            <ul>
+                <li><a href="javascript:void(0)" onclick="showView('rules')">수업 규칙</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('standards')">성취기준</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('lesson-plan')">배우러 가네</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('assessment')">형성평가</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('game-view')">체육 게임</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('books')">추천도서</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="viewContainer">
+        <!-- Hero Section (Default View) -->
+        <section id="hero" class="view active">
+            <div class="hero-content">
+                <h1>즐겁고 활기찬 <br><span class="highlight">체육 수업</span>의 시작! 🏀</h1>
+                <p>2026학년도 중학교 체육 수업 첫 시간 오리엔테이션 페이지입니다.</p>
+                <div class="search-container">
+                    <input type="text" id="mainSearch" placeholder="찾고 싶은 내용을 입력하세요 (예: 축구, 복장, 평가...)">
+                    <button id="searchBtn">검색</button>
+                    <div id="searchResults" class="search-results-overlay"></div>
+                </div>
+            </div>
+            <div class="hero-image-container">
+                <img src="physical_education_hero_1768969378156.png" alt="Sports Gear Collage" class="hero-img">
+            </div>
+        </section>
+
+        <!-- Game View Section -->
+        <section id="game-view" class="view">
+            <div class="view-header">
+                <button class="back-btn" onclick="showView('hero')">← 홈으로</button>
+                <h2 class="section-title">🎮 체육 게임 <span class="emoji">🏃‍♀️</span></h2>
+            </div>
+            <div class="game-container glass"
+                style="height: calc(100% - 120px); border-radius: 20px; overflow: hidden;">
+                <iframe src="pe_stadium_sprint_quiz_v3_autorun_hurdles_coins.html"
+                    style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+        </section>
+
+        <!-- Lesson Plan Section -->
+        <section id="lesson-plan" class="view">
+            <div class="view-header">
+                <button class="back-btn" onclick="showView('hero')">← 홈으로</button>
+                <h2 class="section-title">🏃 배우러 가네 <span class="emoji">🏫</span></h2>
+            </div>
+            <div class="lesson-planner-container glass">
+                <h3>성취기준 기반 가네 수업지도안 생성기</h3>
+                <p style="margin-bottom: 2rem; opacity: 0.8;">성취기준을 선택하면 가네의 9가지 수업사태에 따른 지도안이 자동으로 구성됩니다.</p>
+
+                <div class="selector-box">
+                    <label for="stdSelector" style="font-weight: 700; display: block; margin-bottom: 0.5rem;">성취기준
+                        선택:</label>
+                    <select id="stdSelector" class="form-select">
+                        <option value="">-- 성취기준을 선택하세요 --</option>
+                        <!-- Options injected by JS -->
+                    </select>
+                </div>
+
+                <div id="lessonContent" class="lesson-result-container hidden">
+                    <div class="lesson-meta-info">
+                        <div class="meta-item"><strong>대상:</strong> 중학교 1~3학년 균형 편성</div>
+                        <div class="meta-item"><strong>시간:</strong> 45분</div>
+                        <div class="meta-item"><strong>목표:</strong> <span id="targetStdText"></span></div>
+                    </div>
+
+                    <div class="gagne-timeline" id="gagneTimeline">
+                        <!-- Events injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rules Section -->
+        <section id="rules" class="view">
+            <div class="view-header">
+                <button class="back-btn" onclick="showView('hero')">← 홈으로</button>
+                <h2 class="section-title">🛑 수업 규칙 <span class="emoji">👟</span></h2>
+            </div>
+            <div class="rules-carousel-container">
+                <div id="ruleSlider" class="rule-slider glass" onclick="nextRule()">
+                    <!-- Single Rule Card injected by JS -->
+                </div>
+                <div class="carousel-controls">
+                    <p id="ruleProgress">1 / 10</p>
+                    <p class="hint">카드를 클릭하면 다음 규칙으로 넘어갑니다!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Standards Section -->
+        <section id="standards" class="view">
+            <div class="view-header">
+                <button class="back-btn" onclick="showView('hero')">← 홈으로</button>
+                <h2 class="section-title">📈 성취기준 <span class="emoji">🏅</span></h2>
+            </div>
+            <div class="standards-container">
+                <div class="category-tabs">
+                    <button class="tab-btn active" data-category="9체01">건강</button>
+                    <button class="tab-btn" data-category="9체02">도전/경쟁</button>
+                    <button class="tab-btn" data-category="9체03">표현</button>
+                </div>
+                <div class="standards-list" id="standardsList"></div>
+            </div>
+        </section>
+
+        <!-- Assessment Section -->
+        <section id="assessment" class="view">
+            <div class="view-header">
+                <button class="back-btn" onclick="showView('hero')">← 홈으로</button>
+                <h2 class="section-title">📝 형성평가 <span class="emoji">📖</span></h2>
+            </div>
+            <div class="assessment-card glass">
+                <h3>오늘의 오리엔테이션 확인 퀴즈</h3>
+                <div id="quizContainer"></div>
+                <div id="quizResult" class="hidden">
+                    <h4>잘했어요! 👍</h4>
+                    <p>체육 수업 준비 완료!</p>
+                    <button class="btn-primary" onclick="resetQuiz()">다시 풀기</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Books Section -->
+        <section id="books" class="view">
+            <div class="view-header">
+                <button class="back-btn" onclick="showView('hero')">← 홈으로</button>
+                <h2 class="section-title">📚 추천도서 <span class="emoji">🏐</span></h2>
+                <p class="view-subtitle">교보문고 검색 기반 상세 목록</p>
+            </div>
+            <div class="books-grid-container">
+                <div class="books-grid" id="booksGrid"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Middle School Physical Education. All icons and emojis are for educational purposes. 🏸🤸‍♂️🏐
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
