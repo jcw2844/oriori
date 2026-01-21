@@ -272,7 +272,7 @@ function initBooks() {
                 <div style="font-size: 3rem; margin-bottom: 1rem;">${book.icon}</div>
                 <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">${book.kw}</h4>
             </div>
-            <a href="${book.url}" target="_blank" class="back-btn" style="text-align:center; text-decoration:none; margin-top:1rem; background: var(--secondary); border:none; padding: 0.5rem;">검색 ➔</a>
+            <a href="${book.url}" target="_blank" class="back-btn" style="text-align:center; text-decoration:none; margin-top:1rem; background: var(--primary); color: white; border:none; padding: 0.7rem; display: block; width: 100%;">도서 검색 결과 ➔</a>
         </div>
     `).join('');
 }
