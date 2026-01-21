@@ -162,7 +162,7 @@ const gagneEventsData = [
 
 document.addEventListener('DOMContentLoaded', () => {
     initRules();
-    initStandards('9체01');
+    initStandards('all');
     initBooks();
     initQuiz();
     initSearch();
@@ -172,7 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             document.querySelector('.tab-btn.active').classList.remove('active');
             btn.classList.add('active');
-            initStandards(btn.dataset.category);
+            const category = btn.dataset.category;
+            initStandards(category);
+            focusGraph(category);
         });
     });
 });
@@ -254,13 +256,41 @@ window.nextRule = () => {
 
 function initStandards(category) {
     const list = document.getElementById('standardsList');
-    const filtered = standardsData.filter(s => s.cat === category);
+    const filtered = category === 'all' ? standardsData : standardsData.filter(s => s.cat === category);
     list.innerHTML = filtered.map(s => `
         <div class="standard-item">
-            <span style="font-weight:800; color:var(--accent); font-size:1.2rem;">${s.code}</span>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:800; color:var(--accent); font-size:1.2rem;">${s.code}</span>
+                <span class="cat-badge" style="background:${getCatColor(s.cat)}; color:white; padding:2px 8px; border-radius:10px; font-size:0.7rem;">${getCatName(s.cat)}</span>
+            </div>
             <p style="font-size:1.1rem; margin-top:0.5rem;">${s.desc}</p>
         </div>
     `).join('');
+}
+
+function getCatColor(cat) {
+    switch (cat) {
+        case '9체01': return '#f26a1b';
+        case '9체02': return '#2d6a4f';
+        case '9체03': return '#0077b6';
+        default: return '#666';
+    }
+}
+
+function getCatName(cat) {
+    switch (cat) {
+        case '9체01': return '건강';
+        case '9체02': return '도전/경쟁';
+        case '9체03': return '표현';
+        default: return '';
+    }
+}
+
+function focusGraph(category) {
+    const graphFrame = document.getElementById('graphFrame');
+    if (graphFrame && graphFrame.contentWindow) {
+        graphFrame.contentWindow.postMessage({ type: 'focus', category: category }, '*');
+    }
 }
 
 function initBooks() {
