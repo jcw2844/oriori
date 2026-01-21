@@ -431,14 +431,40 @@ main {
     display: none;
     background: white;
     position: absolute;
-    width: 100%;
-    z-index: 101;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
-    overflow: hidden;
+    top: 100%;
+    /* Position right under the search-container */
     left: 0;
-    border: 1px solid #eee;
+    width: 100%;
+    max-width: 900px;
+    z-index: 2000;
+    /* Higher than header and other elements */
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    margin-top: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    animation: fadeInDown 0.3s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-item {
+    transition: background 0.2s;
+}
+
+.search-item:hover {
+    background: #f8f9fa;
+    color: var(--primary);
 }
 
 /* Lesson Planner */
